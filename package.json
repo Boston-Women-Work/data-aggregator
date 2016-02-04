@@ -1,0 +1,37 @@
+{
+  "name": "Boston Women's Work Data Aggregator",
+  "version": "0.2.0",
+  "description": "Implementation of a data collection and aggregation infrastructure that supports individual data obfuscation.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Boston-Women-Work/data-aggregator.git"
+  },
+  "author": "Boston University",
+  "license": "MIT",
+  "homepage": "https://github.com/Boston-Women-Work/data-aggregator#readme",
+  "devDependencies": {
+    "gulp": "~3.9.0",
+    "gulp-concat": "~2.6.0",
+    "gulp-connect": "~2.3.0",
+    "gulp-inject": "~3.0.0",
+    "gulp-jshint": "~2.0.0",
+    "gulp-minify-css": "~1.2.1",
+    "gulp-uglify": "~1.4.2",
+    "jshint": "~2.0.0",
+    "jshint-stylish": "~2.1.0",
+    "jasmine": "~2.4.1",
+    "karma": "~0.13.19",
+    "karma-jasmine": "~0.3.7",
+    "karma-phantomjs-launcher": "~1.0.0",
+    "phantomjs": "~1.9.18"
+  },
+  "contributors": [
+    "Eric Dunton <edunton@bu.edu>",
+    "Kyle Holzinger <kholz@bu.edu>",
+    "Andrei Lapets <lapets@bu.edu>",
+    "Frederick Jansen <fjansen@bu.edu>"
+  ]
+}

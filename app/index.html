@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Boston Women's Workforce Council</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+
+  <!-- inject:css -->
+  <link rel="stylesheet" href="../bower_components/bootstrap-css-only/css/bootstrap.css"/>
+  <link rel="stylesheet" href="../bower_components/handsontable/dist/handsontable.full.min.css"/>
+  <link rel="stylesheet" href="styles/main.css">
+  <!-- endinject -->
+
+</head>
+<body id="body-wrap" ng-app="bwwc">
+
+<div class="page-header">
+  <table width="100%">
+    <tr>
+      <td>
+        <h1>Workforce Survey<br/><small>Boston Women's Workforce Council</small></h1>
+      </td>
+      <td align="right">
+        <img src="../shared/seal.png" width="130px"/>&nbsp;&nbsp;
+        <img src="../shared/logo.png" width="130px"/>&nbsp;&nbsp;&nbsp;
+        <img src="../shared/bu.png" width="110px"/>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div class="container">
+  <div ui-view></div>
+</div>
+
+<!-- inject:js -->
+<script src="../bower_components/angular/angular.js"></script>
+<script src="../bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+<script src="../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+<script src="../bower_components/handsontable/dist/handsontable.full.min.js"></script>
+<script src="../bower_components/ngHandsontable/dist/ngHandsontable.min.js"></script>
+
+<script src="scripts/app.js"></script>
+<script src="scripts/controllers/client.js"></script>
+<!-- endinject -->
+
+</body>
+</html>

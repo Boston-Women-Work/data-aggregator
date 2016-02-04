@@ -1,0 +1,32 @@
+{
+  "name": "Boston Women's Work Data Aggregator",
+  "homepage": "https://github.com/Boston-Women-Work/data-aggregator",
+  "authors": [
+    "Eric Dunton <edunton@bu.edu>",
+    "Kyle Holzinger <kholz@bu.edu>",
+    "Andrei Lapets <lapets@bu.edu>",
+    "Frederick Jansen <fjansen@bu.edu>"
+  ],
+  "description": "Implementation of a data collection and aggregation infrastructure that supports individual data obfuscation.",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.9",
+    "angular-animate": "~1.4.9",
+    "angular-sanitize": "~1.4.9",
+    "ngHandsontable": "~0.7.0",
+    "angular-ui-router": "~0.2.17",
+    "angular-bootstrap": "~1.1.2",
+    "bootstrap-css-only": "~3.3.6"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.4.9"
+  }
+}
