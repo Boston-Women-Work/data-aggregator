@@ -20,18 +20,18 @@ angular
           templateUrl: 'views/client.html',
           controller: 'ClientCtrl as client'
         })
-        .state('session-creator', {
-          url: '/session-creator/',
-          templateUrl: 'views/session_creator.html',
-          controller: 'SessionCreatorCtrl as sessionCreator'
+        .state('sessionCreator', {
+          url: '/session-creator',
+          templateUrl: 'views/sessionGenerator.html',
+          controller: 'SessionGeneratorCtrl as sessionGenerator'
         })
-        .state('session-viewer', {
-          url: '/session-viewer/',
-          templateUrl: 'views/session_viewer.html',
+        .state('sessionViewer', {
+          url: '/session-viewer',
+          templateUrl: 'views/sessionViewer.html',
           controller: 'SessionViewerCtrl as sessionViewer'
         })
         .state('unmask', {
-          url: '/unmask/',
+          url: '/unmask',
           templateUrl: 'views/unmask.html',
           controller: 'UnmaskCtrl as unmask'
         });

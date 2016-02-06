@@ -1,0 +1,26 @@
+<div>
+  <h2>Instructions</h2>
+  <p>
+    After generating a secure session, please keep the private key file named <b>Session_#######_private_key.pem</b>.
+    All secured data will be lost if the private key is lost. Also, do <b>not</b> share your private key. After clicking
+    the "Generate Session" button, email the <b>Session Key</b> to all participants. Once the data is collected from the
+    participants, with your private key, continue to the next step.
+  </p>
+</div>
+<br/>
+<input type="submit" value="{{sessionGenerator.buttonLabel}}"
+       class="btn btn-primary btn-lg" id="generate"
+       ng-click="sessionGenerator.generateSession()">
+</input>
+<div id="infoDiv" ng-show="sessionGenerator.sessionGenerated">
+  <h3><a id="linkID" ui-sref="session" href="session_data.html"></a></h3>
+  <br/>
+  <h3>Session Key (please email to participants)</h3>
+  <pre id="sessionID"></pre>
+  <br/>
+  <h3>Public Key</h3>
+  <pre id="pubkeyID"></pre>
+  <br/>
+  <h3>Private Key (do not share)</h3>
+  <pre id="privkeyID"></pre>
+</div>
