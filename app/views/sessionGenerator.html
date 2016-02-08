@@ -10,7 +10,8 @@
 <br/>
 <input type="submit" value="{{sessionGenerator.buttonLabel}}"
        class="btn btn-primary btn-lg" id="generate"
-       ng-click="sessionGenerator.generateSession()">
+       ng-click="sessionGenerator.generateSession()"
+       ng-disabled="sessionGenerator.loading">
 </input>
 <div id="infoDiv" ng-show="sessionGenerator.sessionGenerated">
   <h3><a id="linkID" ui-sref="session" href="session_data.html"></a></h3>
