@@ -9,6 +9,7 @@
 angular.module('bwwc.controllers')
   .controller('SessionGeneratorCtrl', ['SessionService',
     function (SessionService) {
+
       var that = this,
         privKeyID,
         pubKeyID;
@@ -20,11 +21,11 @@ angular.module('bwwc.controllers')
         this.loading = true;
 
         SessionService.generateSession()
-          .then(function (priKey, pubKey, priBlob) {
+          .then(function (priKey, pubKey, priBlob, sessionID) {
             that.sessionGenerated = true;
             privKeyID = priKey;
             pubKeyID = pubKey;
-            return SessionService.storeSession(priKey, pubKey, priBlob);
+            return SessionService.storeSession(priKey, pubKey, priBlob, sessionID);
           })
           // SessionService.storeSession
           .then(function (response) {
@@ -37,11 +38,12 @@ angular.module('bwwc.controllers')
               that.pubKeyID = response.error;
               that.privKeyID = response.error;
             } else {
-              that.sessionID = response.data.rndSess;
+              that.sessionID = response.data.sessionID;
               that.pubKeyID = pubKeyID;
               that.privKeyID = privKeyID;
             }
           });
       };
+
       console.log('sessionGeneratorCtrl.js controller');
     }]);

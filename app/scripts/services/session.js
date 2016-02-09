@@ -11,6 +11,7 @@ angular.module('bwwc.services')
        * @returns promise
        */
       session.generateSession = function () {
+        var sessionID = Math.floor((Math.random() * 8999999) + 1000000);
         var deferred = $q.defer(),
           jsen = new window.JSEncrypt();
 
@@ -19,7 +20,7 @@ angular.module('bwwc.services')
             pubKey = jsen.getPublicKey(),
             priBlob = new Blob([priKey], {type: "text/plain;charset=utf-8"});
 
-          deferred.resolve(priKey, pubKey, priBlob);
+          deferred.resolve(priKey, pubKey, priBlob, sessionID);
         });
 
         return deferred.promise;
@@ -31,8 +32,7 @@ angular.module('bwwc.services')
        * @param pubKey
        * @param priBlob
        */
-      session.storeSession = function (priKey, pubKey, priBlob) {
-        var rndSess = Math.floor((Math.random() * 8999999) + 1000000);
+      session.storeSession = function (priKey, pubKey, priBlob, sessionID) {
 
         return $http({
           url: '/create_session',
@@ -40,13 +40,13 @@ angular.module('bwwc.services')
           headers: {
             'Content-Type': 'application/json'
           },
-          data: JSON.stringify({session: rndSess, publickey: pubKey})
+          data: JSON.stringify({session: sessionID, publickey: pubKey})
         }).then(function successCallback() {
           // Save private key to file system
-          saveAs(priBlob, 'Session_' + rndSess.toString() + '_private_key.pem');
+          window.saveAs(priBlob, 'Session_' + sessionID.toString() + '_private_key.pem');
           return {
             data: {
-              rndSess: rndSess.toString()
+              sessionID: sessionID.toString()
             }
           };
         }, function errorCallback() {
