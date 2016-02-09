@@ -12,7 +12,7 @@ angular.module('bwwc.controllers')
       var that = this,
         privKeyID,
         pubKeyID;
-      this.buttonLabel = 'Generate Session',
+      this.buttonLabel = 'Generate Session';
       this.loading = false;
 
       this.generateSession = function () {
@@ -24,7 +24,7 @@ angular.module('bwwc.controllers')
             that.sessionGenerated = true;
             privKeyID = priKey;
             pubKeyID = pubKey;
-            return SessionService.storeSession(priKey, pubKey, priBlob)
+            return SessionService.storeSession(priKey, pubKey, priBlob);
           })
           // SessionService.storeSession
           .then(function (response) {

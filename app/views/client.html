@@ -1,0 +1,30 @@
+<h3>Enter Session Key</h3>
+<input type="text" id="sess"/>
+<h3>Email Address to track participation</h3>
+<input type=text id="emailf"/>
+<h3>Female Workforce</h3>
+<div id="females">
+  <hot-table data="client.data"
+             contextMenu="false"
+             minSpareRows="0">
+  </hot-table>
+</div>
+<h3>Male Workforce</h3>
+<div id="males"></div>
+<br/>
+<button name="dump" class="btn btn-primary btn-lg" id="submit" >Submit</button>
+<br/>
+<script type="text/javascript">
+  /*$(document).ready(function() {
+    $.ajax({
+        type: "GET",
+        url: "./default2.csv",
+        dataType: "text"
+      })
+      .done(function(data){
+        var f = makeTable(processData(data), 'females'),
+          m = makeTable(processData(data), 'males');
+        initiate_button({Female: f, Male: m}, "dump", "/", 'sess','emailf');
+      });
+  });*/
+</script>

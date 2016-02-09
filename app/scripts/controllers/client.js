@@ -7,8 +7,11 @@
  * # ClientCtrl
  */
 angular.module('bwwc.controllers')
-  .controller('ClientCtrl', ['$scope', '$window',
-    function ($scope, $window) {
+  .controller('ClientCtrl', ['ClientService',
+    function (ClientService) {
+
+      var tableData = ClientService.getTableData();
+      this.data = tableData.data;
 
       console.log('client.js controller');
     }]);

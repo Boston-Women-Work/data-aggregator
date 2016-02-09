@@ -22,15 +22,19 @@ module.exports = function(config) {
     files: [
       'bower_components/angular/angular.min.js',
       'bower_components/angular-mocks/angular-mocks.js',
+      'bower_components/handsontable/dist/handsontable.full.min.js',
       'bower_components/**/*.min.js',
-      "app/scripts/**/*.js",
-      "test/mock/**/*.js",
-      "test/spec/**/*.js"
+      'app/scripts/**/*.js',
+      'test/spec/**/*.js'
     ],
 
     // list of files / patterns to exclude
     exclude: [
-      'bower_components/angular-bootstrap/ui-bootstrap.min.js'
+      'bower_components/**/demo/*.js',
+      'bower_components/moment/**/*.js',
+      'bower_components/pikaday/**/*.js',
+      'bower_components/angular-bootstrap/ui-bootstrap.min.js',
+      'bower_components/handsontable/dist/handsontable.min.js'
     ],
 
     // web server port
@@ -62,7 +66,7 @@ module.exports = function(config) {
 
     // level of logging
     // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
-    logLevel: config.LOG_INFO,
+    logLevel: config.LOG_INFO
 
     // Uncomment the following lines if you are using grunt's server to run the tests
     // proxies: {

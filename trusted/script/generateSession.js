@@ -8,20 +8,20 @@
  */
 
 function generateSession(hiddenDiv, sessionID, pubID, privID, linkID){
-    
+
     document.getElementById(hiddenDiv).style.visibility = "visible";
     var rndSess = Math.floor((Math.random() * 8999999) + 1000000),
         jsen = new JSEncrypt();
     document.getElementById(sessionID).innerHTML = rndSess;
     document.getElementById(pubID).innerHTML = "Loading...";
     document.getElementById(privID).innerHTML = "Loading... (Remember: Do not share this)";
-    
+
     jsen.getKey(function(){
-        
+
         var priKey = jsen.getPrivateKey(),
             pubKey = jsen.getPublicKey(),
             priblob = new Blob([priKey],{type: "text/plain;charset=utf-8"});
-        
+
         $.ajax({
             type: "POST",
             url: "/create_session",
@@ -30,7 +30,7 @@ function generateSession(hiddenDiv, sessionID, pubID, privID, linkID){
             success: function(){
                 document.getElementById(privID).innerHTML = priKey;
                 document.getElementById(pubID).innerHTML = pubKey;
-                document.getElementById(linkID).innerHTML = 
+                document.getElementById(linkID).innerHTML =
                     "Go To Live Data Page for Session " + rndSess.toString();
                 document.getElementById(linkID).href += "?session=" + rndSess.toString();
                 saveAs(priblob,'Session_'+rndSess.toString()+'_private_key.pem');
@@ -40,7 +40,7 @@ function generateSession(hiddenDiv, sessionID, pubID, privID, linkID){
                 document.getElementById(privID).innerHTML = errmsg;
                 document.getElementById(pubID).innerHTML = errmsg;
             }
-        });    
+        });
     });
 }
 
