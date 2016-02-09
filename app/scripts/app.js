@@ -5,6 +5,7 @@ angular
     'bwwc.controllers',
     'bwwc.services',
     'bwwc.directives',
+    'bwwc.strings',
     'ui.router',
     'ui.bootstrap',
     'ngSanitize',
@@ -14,7 +15,6 @@ angular
     function ($stateProvider, $urlRouterProvider) {
 
       $stateProvider
-
         .state('client', {
           url: '/',
           templateUrl: 'views/client.html',
@@ -42,3 +42,4 @@ angular
 angular.module('bwwc.controllers', []);
 angular.module('bwwc.services', []);
 angular.module('bwwc.directives', []);
+angular.module('bwwc.strings', []);

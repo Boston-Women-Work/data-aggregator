@@ -24,6 +24,7 @@ gulp.task('buildVendor', function(){
       '!bower_components/angular-bootstrap/ui-bootstrap.min.js',
       'bower_components/angular/angular.min.js',
       'bower_components/angular-mocks/angular-mocks.js',
+      'bower_components/file-saver.js/FileSaver.js',
       'bower_components/**/*.min.js'])
     .pipe(concat('vendors.js'))
     .pipe(uglify())
