@@ -20,7 +20,7 @@ angular.module('bwwc.services')
             pubKey = jsen.getPublicKey(),
             priBlob = new Blob([priKey], {type: "text/plain;charset=utf-8"});
 
-          deferred.resolve(priKey, pubKey, priBlob, sessionID);
+          deferred.resolve({privKeyID: priKey, pubKeyID: pubKey, priBlob: priBlob, sessionID: sessionID});
         });
 
         return deferred.promise;
@@ -51,7 +51,7 @@ angular.module('bwwc.services')
           };
         }, function errorCallback() {
           return {
-            error: STRINGS.CREATE_SESSION_ERROR
+            error: STRINGS.GENERATE_SESSION_ERROR
           };
         });
       };

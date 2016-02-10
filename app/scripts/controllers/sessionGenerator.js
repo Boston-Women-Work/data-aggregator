@@ -7,30 +7,30 @@
  * # SessionGeneratorCtrl
  */
 angular.module('bwwc.controllers')
-  .controller('SessionGeneratorCtrl', ['SessionService',
-    function (SessionService) {
+  .controller('SessionGeneratorCtrl', ['SessionService', 'STRINGS',
+    function (SessionService, STRINGS) {
 
       var that = this,
         privKeyID,
         pubKeyID;
-      this.buttonLabel = 'Generate Session';
+      this.buttonLabel = STRINGS.GENERATE_SESSION_BUTTON_NORMAL;
       this.loading = false;
 
       this.generateSession = function () {
-        this.buttonLabel = 'Loading...';
+        this.buttonLabel = STRINGS.GENERATE_SESSION_BUTTON_LOADING;
         this.loading = true;
 
         SessionService.generateSession()
-          .then(function (priKey, pubKey, priBlob, sessionID) {
+          .then(function (resp) {
             that.sessionGenerated = true;
-            privKeyID = priKey;
-            pubKeyID = pubKey;
-            return SessionService.storeSession(priKey, pubKey, priBlob, sessionID);
+            privKeyID = resp.privKeyID;
+            pubKeyID = resp.pubKeyID;
+            return SessionService.storeSession(resp.privKeyID, resp.pubKeyID, resp.priBlob, resp.sessionID);
           })
           // SessionService.storeSession
           .then(function (response) {
             // Reset button label to generate new session
-            that.buttonLabel = 'Generate Session';
+            that.buttonLabel = STRINGS.GENERATE_SESSION_BUTTON_NORMAL;
             that.loading = false;
 
             if (response.error) {

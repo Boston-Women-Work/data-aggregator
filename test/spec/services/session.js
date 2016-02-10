@@ -29,8 +29,10 @@ describe('Service: SessionService', function () {
           callback();
         },
         getPrivateKey: function () {
+          //return 1;
         },
         getPublicKey: function () {
+          //return 2;
         }
       };
 
@@ -108,7 +110,7 @@ describe('Service: SessionService', function () {
 
       SessionService.storeSession(1, 2, 3)
         .then(function (response) {
-          expect(response).toEqual({error: STRINGS.CREATE_SESSION_ERROR});
+          expect(response).toEqual({error: STRINGS.GENERATE_SESSION_ERROR});
           done();
         });
 
