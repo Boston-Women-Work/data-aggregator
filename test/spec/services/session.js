@@ -28,8 +28,10 @@ describe('Service: SessionService', function () {
         getKey: function (callback) {
           callback();
         },
-        getPrivateKey: function () {},
-        getPublicKey: function () {}
+        getPrivateKey: function () {
+        },
+        getPublicKey: function () {
+        }
       };
 
       // Spy on global JSEncrypt object, then return mock
@@ -43,19 +45,25 @@ describe('Service: SessionService', function () {
       expect(jsen.getKey).toHaveBeenCalled();
     });
 
-    it('calls JSEncrypt getPrivateKey', function () {
+    it('calls JSEncrypt getPrivateKey', function (done) {
       spyOn(jsen, 'getPrivateKey');
+
       SessionService.generateSession().then(function () {
         expect(jsen.getPrivateKey).toHaveBeenCalled();
+        done();
       });
+
       $rootScope.$apply();
     });
 
-    it('calls JSEncrypt getPublicKey', function () {
+    it('calls JSEncrypt getPublicKey', function (done) {
       spyOn(jsen, 'getPublicKey');
+
       SessionService.generateSession().then(function () {
         expect(jsen.getPublicKey).toHaveBeenCalled();
+        done();
       });
+
       $rootScope.$apply();
     });
 
@@ -75,29 +83,33 @@ describe('Service: SessionService', function () {
       saveAs = jasmine.createSpy('saveAs');
     }));
 
-    it('should return session id as response', function () {
+    it('should return session id as response', function (done) {
       SessionService.storeSession(1, 2, 3, 123)
         .then(function (response) {
           expect(response).toEqual({data: {sessionID: '123'}});
+          done();
         });
 
       $httpBackend.flush();
     });
 
-    it('should call saveAs with right parameters', function () {
+    it('should call saveAs with right parameters', function (done) {
       SessionService.storeSession(1, 2, 3, 123)
         .then(function () {
           expect(saveAs).toHaveBeenCalledWith(3, 'Session_123_private_key.pem');
+          done();
         });
 
       $httpBackend.flush();
     });
 
-    it('should return error on 500 status', function () {
+    it('should return error on 500 status', function (done) {
       handler.respond(500, 'error');
+
       SessionService.storeSession(1, 2, 3)
         .then(function (response) {
           expect(response).toEqual({error: STRINGS.CREATE_SESSION_ERROR});
+          done();
         });
 
       $httpBackend.flush();
