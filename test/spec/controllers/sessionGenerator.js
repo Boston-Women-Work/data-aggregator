@@ -25,12 +25,6 @@ describe('Controller: SessionGeneratorCtrl', function () {
       def.resolve({privKeyID: 1, pubKeyID: 2, priBlob: 3, sessionID: 123});
       return def.promise;
     });
-    // This is the successful response
-    spyOn(SessionService, 'storeSession').and.callFake(function () {
-      var def = $q.defer();
-      def.resolve({data:{sessionID: 123}});
-      return def.promise;
-    });
 
     STRINGS = $injector.get('STRINGS');
 
@@ -76,8 +70,15 @@ describe('Controller: SessionGeneratorCtrl', function () {
 
   describe('generateSession after completed', function () {
 
-    beforeEach(inject(function($injector) {
+    beforeEach(inject(function($injector, $q) {
       $rootScope = $injector.get('$rootScope');
+
+      // This is the successful response
+      spyOn(SessionService, 'storeSession').and.callFake(function () {
+        var def = $q.defer();
+        def.resolve({data:{sessionID: 123}});
+        return def.promise;
+      });
     }));
 
     it('button label should reset to initial state', function () {
@@ -105,5 +106,28 @@ describe('Controller: SessionGeneratorCtrl', function () {
       expect(SessionGeneratorCtrl.pubKeyID).toBe(2);
       expect(SessionGeneratorCtrl.privKeyID).toBe(1);
     });
+  });
+
+  describe('generateSession after completed with error', function () {
+
+    beforeEach(inject(function ($injector, $q) {
+      $rootScope = $injector.get('$rootScope');
+
+      // This is the error response
+      spyOn(SessionService, 'storeSession').and.callFake(function () {
+        var def = $q.defer();
+        def.resolve({error: STRINGS.GENERATE_SESSION_ERROR});
+        return def.promise;
+      });
+    }));
+
+    it('should return error message for database error', function() {
+      SessionGeneratorCtrl.generateSession();
+      $rootScope.$apply();
+      expect(SessionGeneratorCtrl.sessionID).toBe(STRINGS.GENERATE_SESSION_ERROR);
+      expect(SessionGeneratorCtrl.pubKeyID).toBe(STRINGS.GENERATE_SESSION_ERROR);
+      expect(SessionGeneratorCtrl.privKeyID).toBe(STRINGS.GENERATE_SESSION_ERROR);
+    });
+
   });
 });
