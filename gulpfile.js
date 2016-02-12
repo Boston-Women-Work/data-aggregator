@@ -9,7 +9,7 @@ var inject = require('gulp-inject');
 
 // *******************************************
 
-gulp.task('buildApp', function(){
+gulp.task('buildApp', function () {
   return gulp.src([
       '!app/scripts/options.example.js',
       'app/scripts/**/*.js'])
@@ -19,7 +19,7 @@ gulp.task('buildApp', function(){
     .pipe(connect.reload());
 });
 
-gulp.task('buildVendor', function(){
+gulp.task('buildVendor', function () {
   return gulp.src([
       '!bower_components/angular-bootstrap/ui-bootstrap.min.js',
       'bower_components/angular/angular.min.js',
@@ -31,7 +31,7 @@ gulp.task('buildVendor', function(){
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('buildCSS', function(){
+gulp.task('buildCSS', function () {
   return gulp.src([
       'bower_components/bootstrap-css-only/css/bootstrap.css',
       'app/styles/**/*.css'])
@@ -41,7 +41,7 @@ gulp.task('buildCSS', function(){
     .pipe(connect.reload());
 });
 
-gulp.task('moveHTML', function(){
+gulp.task('moveHTML', function () {
   return gulp.src('app/**/*.html')
     .pipe(gulp.dest('dist'))
     .pipe(connect.reload());
@@ -70,7 +70,7 @@ gulp.task('karma', function (done) {
   }, done).start();
 });
 
-gulp.task('jshint', function(){
+gulp.task('jshint', function () {
   return gulp.src(['app/scripts/**/*.js', 'test/**/*.js'])
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'));
@@ -78,16 +78,33 @@ gulp.task('jshint', function(){
 
 gulp.task('test', ['karma', 'jshint']);
 
+gulp.task('coveralls', ['test'], function () {
+  if (!process.env.CI) {
+    return;
+  }
+
+  return gulp.src(path.join(__dirname, 'coverage/lcov.info'))
+    .pipe(coveralls());
+});
+
 // ***************************************
 
-gulp.task('connect', function(){
+gulp.task('connect', function () {
+  if (process.env.CI) {
+    return;
+  }
+
   connect.server({
     root: 'dist',
     livereload: true
   });
 });
 
-gulp.task('watch', function(){
+gulp.task('watch', function () {
+  if (process.env.CI) {
+    return;
+  }
+
   gulp.watch('app/scripts/**/*.js', ['buildApp']);
   gulp.watch('app/styles/**/*.css', ['buildCSS']);
   gulp.watch('app/**/*.html', ['moveHTML']);
@@ -95,4 +112,4 @@ gulp.task('watch', function(){
 
 // *******************************************
 
-gulp.task('default', ['build', 'test', 'watch', 'connect']);
+gulp.task('default', ['build', 'test', 'coveralls', 'watch', 'connect']);
