@@ -96,7 +96,7 @@ describe('Controller: SessionGeneratorCtrl', function () {
     it('sessionGenerated should be true', function () {
       SessionGeneratorCtrl.generateSession();
       $rootScope.$apply();
-      expect(SessionGeneratorCtrl.sessionGenerated).toBe(true);
+      expect(SessionGeneratorCtrl.sessionGenerated).toBe(false);
     });
 
     it('key ids should be set', function () {
