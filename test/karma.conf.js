@@ -2,7 +2,7 @@
 // http://karma-runner.github.io/0.12/config/configuration-file.html
 // generator-karma 1.0.0
 
-module.exports = function(config) {
+module.exports = function (config) {
   'use strict';
 
   config.set({
@@ -70,9 +70,17 @@ module.exports = function(config) {
       'app/scripts/**/*.js': ['coverage']
     },
 
+    coverageReporter: {
+      // specify a common output directory
+      dir: 'coverage',
+      reporters: [
+        {type: 'lcovonly', subdir: '.', file: 'lcov.info'}
+      ]
+    },
+
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
-    singleRun: false,
+    singleRun: true,
 
     colors: true,
 

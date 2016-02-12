@@ -64,10 +64,17 @@ gulp.task('build', ['buildApp', 'buildVendor', 'buildCSS', 'moveHTML', 'injectHT
 // **********************************
 
 gulp.task('karma', function (done) {
-  new Server({
-    configFile: __dirname + '/test/karma.conf.js',
-    singleRun: false
-  }, done).start();
+  if (process.env.CI) {
+    new Server({
+      configFile: __dirname + '/test/karma.conf.js',
+      singleRun: true
+    }, done).start();
+  } else {
+    new Server({
+      configFile: __dirname + '/test/karma.conf.js',
+      singleRun: false
+    }, done).start();
+  }
 });
 
 gulp.task('jshint', function () {
@@ -76,9 +83,7 @@ gulp.task('jshint', function () {
     .pipe(jshint.reporter('jshint-stylish'));
 });
 
-gulp.task('test', ['karma', 'jshint']);
-
-gulp.task('coveralls', ['test'], function () {
+gulp.task('coveralls', function () {
   if (!process.env.CI) {
     return;
   }
@@ -87,13 +92,11 @@ gulp.task('coveralls', ['test'], function () {
     .pipe(coveralls());
 });
 
+gulp.task('test', ['karma', 'jshint', 'coveralls']);
+
 // ***************************************
 
 gulp.task('connect', function () {
-  if (process.env.CI) {
-    return;
-  }
-
   connect.server({
     root: 'dist',
     livereload: true
@@ -101,10 +104,6 @@ gulp.task('connect', function () {
 });
 
 gulp.task('watch', function () {
-  if (process.env.CI) {
-    return;
-  }
-
   gulp.watch('app/scripts/**/*.js', ['buildApp']);
   gulp.watch('app/styles/**/*.css', ['buildCSS']);
   gulp.watch('app/**/*.html', ['moveHTML']);
@@ -112,4 +111,4 @@ gulp.task('watch', function () {
 
 // *******************************************
 
-gulp.task('default', ['build', 'test', 'coveralls', 'watch', 'connect']);
+gulp.task('default', ['build', 'test', 'watch', 'connect']);
