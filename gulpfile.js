@@ -6,7 +6,6 @@ var Server = require('karma').Server;
 var jshint = require('gulp-jshint');
 var connect = require('gulp-connect');
 var inject = require('gulp-inject');
-var coveralls = require('gulp-coveralls');
 
 // *******************************************
 
@@ -84,16 +83,7 @@ gulp.task('jshint', function () {
     .pipe(jshint.reporter('jshint-stylish'));
 });
 
-gulp.task('coveralls', function () {
-  if (!process.env.CI) {
-    return;
-  }
-
-  return gulp.src('coverage/lcov.info')
-    .pipe(coveralls());
-});
-
-gulp.task('test', ['karma', 'jshint', 'coveralls']);
+gulp.task('test', ['karma', 'jshint']);
 
 // ***************************************
 
