@@ -1,6 +1,9 @@
 data-aggregator
 ===============
 
+[![Build Status](https://travis-ci.org/Boston-Women-Work/data-aggregator.svg?branch=master)](https://travis-ci.org/Boston-Women-Work/data-aggregator)
+[![Coverage Status](https://coveralls.io/repos/github/Boston-Women-Work/data-aggregator/badge.svg?branch=angular)](https://coveralls.io/github/Boston-Women-Work/data-aggregator?branch=angular)
+
 Implementation of a data collection and aggregation infrastructure that supports individual data obfuscation.
 
 

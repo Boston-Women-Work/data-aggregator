@@ -118,4 +118,44 @@ describe('Service: SessionService', function () {
     });
   });
 
+  describe('get session participants', function () {
+
+    beforeEach(inject(function ($injector) {
+      // Get app strings
+      STRINGS = $injector.get('STRINGS');
+      // Set up the mock http service
+      $httpBackend = $injector.get('$httpBackend');
+      // backend definition common for all tests
+      handler = $httpBackend.when('GET', '/get_participants?last_fetch=date&session=123').respond(200, {
+        '123abc': 'date 1',
+        'abc123': 'date 2'
+      });
+    }));
+
+    it('should return list of participants', function (done) {
+      SessionService.getSessionParticipants(123, 'date')
+        .then(function (response) {
+          expect(response.data).toEqual({
+            '123abc': 'date 1',
+            'abc123': 'date 2'
+          });
+          done();
+        });
+
+      $httpBackend.flush();
+    });
+
+    it('should return error on 500 status', function (done) {
+      handler.respond(500, 'error');
+
+      SessionService.getSessionParticipants(123, 'date')
+        .then(function (response) {
+          expect(response).toEqual({error: STRINGS.GET_SESSION_PARTICIPANTS_ERROR});
+          done();
+        });
+
+      $httpBackend.flush();
+    });
+  });
+
 });

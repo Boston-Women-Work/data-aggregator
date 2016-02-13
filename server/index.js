@@ -50,7 +50,7 @@ app.use(express.static(__dirname + '/../'));
 app.post('/', function (req, res) {
     console.dir('Incoming data...');
 
-    // verify that the json follows the schema as the data in the 
+    // verify that the json follows the schema as the data in the
     // database and is actually json.
 
     if (  !(req.body.hasOwnProperty("mask") &&
@@ -137,7 +137,7 @@ app.post('/create_session', function (req, res) {
 });
 
 // endpoint for returning the emails that have submitted already
-app.post('/get_data', function (req, res) {
+app.get('/get_participants', function (req, res) {
     console.log(req.body);
 
     // find all entries for a specific session and return the email and the time they submitted

@@ -44,6 +44,4 @@ angular.module('bwwc.controllers')
             }
           });
       };
-
-      console.log('sessionGeneratorCtrl.js controller');
     }]);
