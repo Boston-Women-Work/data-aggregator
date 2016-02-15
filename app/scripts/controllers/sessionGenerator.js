@@ -7,14 +7,18 @@
  * # SessionGeneratorCtrl
  */
 angular.module('bwwc.controllers')
-  .controller('SessionGeneratorCtrl', ['SessionService', 'STRINGS',
-    function (SessionService, STRINGS) {
+  .controller('SessionGeneratorCtrl', ['SessionService', 'STRINGS', '$rootScope',
+    function (SessionService, STRINGS, $rootScope) {
 
       var that = this,
         privKeyID,
         pubKeyID;
       this.buttonLabel = STRINGS.GENERATE_SESSION_BUTTON_NORMAL;
       this.loading = false;
+
+      $rootScope.pageTitle = STRINGS.PAGE_TITLE_SESSION_GENERATOR;
+      $rootScope.headerTitle = STRINGS.HEADER_TITLE_SESSION_GENERATOR;
+      $rootScope.headerSubtitle = STRINGS.HEADER_SUBTITLE_SESSION_GENERATOR;
 
       this.generateSession = function () {
         this.buttonLabel = STRINGS.GENERATE_SESSION_BUTTON_LOADING;

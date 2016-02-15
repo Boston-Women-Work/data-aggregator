@@ -1,8 +1,8 @@
 <!doctype html>
-<html>
+<html ng-app="bwwc">
 <head>
   <meta charset="utf-8">
-  <title>Boston Women's Workforce Council</title>
+  <title>{{pageTitle}}</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width">
 
@@ -13,13 +13,13 @@
   <!-- endinject -->
 
 </head>
-<body id="body-wrap" ng-app="bwwc">
+<body id="body-wrap">
 
 <div class="page-header">
   <table width="100%">
     <tr>
       <td>
-        <h1>Workforce Survey<br/><small>Boston Women's Workforce Council</small></h1>
+        <h1>{{headerTitle}}<br/><small>{{headerSubtitle}}</small></h1>
       </td>
       <td align="right">
         <img src="../shared/seal.png" width="130px"/>&nbsp;&nbsp;

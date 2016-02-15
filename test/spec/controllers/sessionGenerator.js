@@ -27,9 +27,11 @@ describe('Controller: SessionGeneratorCtrl', function () {
     });
 
     STRINGS = $injector.get('STRINGS');
+    $rootScope = $injector.get('$rootScope');
 
     SessionGeneratorCtrl = $controller('SessionGeneratorCtrl', {
-      SessionService: SessionService
+      SessionService: SessionService,
+      $rootScope: $rootScope
     });
   }));
 
@@ -45,6 +47,12 @@ describe('Controller: SessionGeneratorCtrl', function () {
 
     it('sessionGenerated should be undefined', function () {
       expect(SessionGeneratorCtrl.sessionGenerated).toBe(undefined);
+    });
+
+    it('page and header title should be correct', function () {
+      expect($rootScope.pageTitle).toBe(STRINGS.PAGE_TITLE_SESSION_GENERATOR);
+      expect($rootScope.headerTitle).toBe(STRINGS.HEADER_TITLE_SESSION_GENERATOR);
+      expect($rootScope.headerSubtitle).toBe(STRINGS.HEADER_SUBTITLE_SESSION_GENERATOR);
     });
   });
 
@@ -70,9 +78,7 @@ describe('Controller: SessionGeneratorCtrl', function () {
 
   describe('generateSession after completed', function () {
 
-    beforeEach(inject(function($injector, $q) {
-      $rootScope = $injector.get('$rootScope');
-
+    beforeEach(inject(function($q) {
       // This is the successful response
       spyOn(SessionService, 'storeSession').and.callFake(function () {
         var def = $q.defer();
@@ -110,9 +116,7 @@ describe('Controller: SessionGeneratorCtrl', function () {
 
   describe('generateSession after completed with error', function () {
 
-    beforeEach(inject(function ($injector, $q) {
-      $rootScope = $injector.get('$rootScope');
-
+    beforeEach(inject(function ($q) {
       // This is the error response
       spyOn(SessionService, 'storeSession').and.callFake(function () {
         var def = $q.defer();
