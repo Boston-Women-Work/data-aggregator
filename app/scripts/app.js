@@ -20,8 +20,8 @@ angular
           templateUrl: 'views/client.html',
           controller: 'ClientCtrl as client'
         })
-        .state('sessionCreator', {
-          url: '/session-creator',
+        .state('sessionGenerator', {
+          url: '/session-generator',
           templateUrl: 'views/sessionGenerator.html',
           controller: 'SessionGeneratorCtrl as sessionGenerator'
         })
