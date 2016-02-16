@@ -13,8 +13,8 @@ angular.module('bwwc.controllers')
       var that = this,
         privKeyID,
         pubKeyID;
-      this.buttonLabel = STRINGS.GENERATE_SESSION_BUTTON_NORMAL;
-      this.loading = false;
+
+      resetLoadingStatus();
 
       $rootScope.pageTitle = STRINGS.PAGE_TITLE_SESSION_GENERATOR;
       $rootScope.headerTitle = STRINGS.HEADER_TITLE_SESSION_GENERATOR;
@@ -32,20 +32,24 @@ angular.module('bwwc.controllers')
             return SessionService.storeSession(resp.privKeyID, resp.pubKeyID, resp.priBlob, resp.sessionID);
           })
           // SessionService.storeSession
-          .then(function (response) {
-            // Reset button label to generate new session
-            that.buttonLabel = STRINGS.GENERATE_SESSION_BUTTON_NORMAL;
-            that.loading = false;
+          .then(function successCallback(response) {
+            resetLoadingStatus();
 
-            if (response.error) {
-              that.sessionID = response.error;
-              that.pubKeyID = response.error;
-              that.privKeyID = response.error;
-            } else {
-              that.sessionID = response.data.sessionID;
-              that.pubKeyID = pubKeyID;
-              that.privKeyID = privKeyID;
-            }
+            that.sessionID = response.data.sessionID;
+            that.pubKeyID = pubKeyID;
+            that.privKeyID = privKeyID;
+          }, function errorCallback(response) {
+            resetLoadingStatus();
+
+            that.sessionID = response.error;
+            that.pubKeyID = response.error;
+            that.privKeyID = response.error;
           });
       };
+
+      // Reset button label to generate new session
+      function resetLoadingStatus() {
+        that.buttonLabel = STRINGS.GENERATE_SESSION_BUTTON_NORMAL;
+        that.loading = false;
+      }
     }]);

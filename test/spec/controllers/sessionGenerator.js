@@ -78,11 +78,11 @@ describe('Controller: SessionGeneratorCtrl', function () {
 
   describe('generateSession after completed', function () {
 
-    beforeEach(inject(function($q) {
+    beforeEach(inject(function ($q) {
       // This is the successful response
       spyOn(SessionService, 'storeSession').and.callFake(function () {
         var def = $q.defer();
-        def.resolve({data:{sessionID: 123}});
+        def.resolve({data: {sessionID: 123}});
         return def.promise;
       });
     }));
@@ -120,12 +120,12 @@ describe('Controller: SessionGeneratorCtrl', function () {
       // This is the error response
       spyOn(SessionService, 'storeSession').and.callFake(function () {
         var def = $q.defer();
-        def.resolve({error: STRINGS.GENERATE_SESSION_ERROR});
+        def.reject({error: STRINGS.GENERATE_SESSION_ERROR});
         return def.promise;
       });
     }));
 
-    it('should return error message for database error', function() {
+    it('should return error message for database error', function () {
       SessionGeneratorCtrl.generateSession();
       $rootScope.$apply();
       expect(SessionGeneratorCtrl.sessionID).toBe(STRINGS.GENERATE_SESSION_ERROR);
@@ -133,5 +133,16 @@ describe('Controller: SessionGeneratorCtrl', function () {
       expect(SessionGeneratorCtrl.privKeyID).toBe(STRINGS.GENERATE_SESSION_ERROR);
     });
 
+    it('button label should reset to initial state', function () {
+      SessionGeneratorCtrl.generateSession();
+      $rootScope.$apply();
+      expect(SessionGeneratorCtrl.buttonLabel).toBe(STRINGS.GENERATE_SESSION_BUTTON_NORMAL);
+    });
+
+    it('loading should be false', function () {
+      SessionGeneratorCtrl.generateSession();
+      $rootScope.$apply();
+      expect(SessionGeneratorCtrl.loading).toBe(false);
+    });
   });
 });
