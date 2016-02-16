@@ -80,9 +80,9 @@ angular.module('bwwc.services')
         }).then(function successCallback(response) {
           return response;
         }, function errorCallback() {
-          return {
-            error: STRINGS.GET_SESSION_PARTICIPANTS_ERROR
-          };
+          var error =  {};
+          error[STRINGS.GET_SESSION_PARTICIPANTS_ERROR] = STRINGS.GET_SESSION_PARTICIPANTS_ERROR;
+          return error;
         });
       };
 
