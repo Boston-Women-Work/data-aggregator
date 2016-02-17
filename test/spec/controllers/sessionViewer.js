@@ -8,6 +8,7 @@ describe('Controller: SessionViewerCtrl', function () {
   var SessionViewerCtrl,
     SessionService,
     $rootScope,
+    $interval,
     STRINGS,
     participants,
     errorMsg;
@@ -21,9 +22,11 @@ describe('Controller: SessionViewerCtrl', function () {
     };
 
     STRINGS = $injector.get('STRINGS');
+    $interval = $injector.get('$interval');
 
     SessionViewerCtrl = $controller('SessionViewerCtrl', {
-      SessionService: SessionService
+      SessionService: SessionService,
+      $interval: $interval
     });
   }));
 
@@ -47,6 +50,12 @@ describe('Controller: SessionViewerCtrl', function () {
       expect($rootScope.headerSubtitle).toBe(STRINGS.HEADER_SUBTITLE_SESSION_VIEWER);
     });
 
+    it('getSessionParticipants should be called', function () {
+      SessionViewerCtrl.getSessionParticipants();
+      $rootScope.$apply();
+      expect(SessionService.getSessionParticipants).toHaveBeenCalledTimes(1);
+    });
+
     it('should set list of participants', function () {
       SessionViewerCtrl.getSessionParticipants();
       $rootScope.$apply();
@@ -57,6 +66,20 @@ describe('Controller: SessionViewerCtrl', function () {
       SessionViewerCtrl.getSessionParticipants();
       $rootScope.$apply();
       expect(SessionViewerCtrl.participantsLoaded).toBe(true);
+    });
+
+    it('timer should be called continuously', function () {
+      SessionViewerCtrl.getSessionParticipants();
+      $rootScope.$apply();
+      $interval.flush(9999);
+      // Don't call again yet
+      expect(SessionService.getSessionParticipants).toHaveBeenCalledTimes(1);
+      $interval.flush(1);
+      // After 10 sec should be called twice
+      expect(SessionService.getSessionParticipants).toHaveBeenCalledTimes(2);
+      $interval.flush(10000);
+      // Keep calling every 10 sec
+      expect(SessionService.getSessionParticipants).toHaveBeenCalledTimes(3);
     });
   });
 
