@@ -9,13 +9,13 @@
         <label for="maskKey">Private Key <br/><small>(Note this does not upload the key to the server)</small></label>
         <input type="file" id="maskKey" placeholder="Private Key">
       </div>
-      <button id="unmask" class="btn btn-primary ladda-button" data-style="expand-left">
-        <span class="ladda-label">Unmask Data</span>
+      <button ladda="unmaskSession.loading" id="unmask" ng-click="unmaskSession.unmask()" class="btn btn-primary ladda-button">
+        Unmask Data
       </button>
     </form>
   </div>
 </div>
 
-<div id="friendly"></div>
+<div ng-if="unmaskSession.loaded" id="friendly"></div>
 <br/>
-<pre id="result"></pre>
+<pre ng-if="unmaskSession.loaded" id="result"></pre>

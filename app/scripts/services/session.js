@@ -86,5 +86,9 @@ angular.module('bwwc.services')
         });
       };
 
+      session.unmask = function () {
+
+      };
+
       return session;
     }]);

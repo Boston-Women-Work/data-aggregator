@@ -9,10 +9,11 @@ angular
     'ui.router',
     'ui.bootstrap',
     'ngSanitize',
-    'ngHandsontable'
+    'ngHandsontable',
+    'angular-ladda'
   ])
-  .config(['$stateProvider', '$urlRouterProvider',
-    function ($stateProvider, $urlRouterProvider) {
+  .config(['$stateProvider', '$urlRouterProvider', 'laddaProvider',
+    function ($stateProvider, $urlRouterProvider, laddaProvider) {
 
       $stateProvider
         .state('client', {
@@ -37,6 +38,12 @@ angular
         });
 
       $urlRouterProvider.otherwise('/');
+
+      laddaProvider.setOption({
+        style: 'zoom-in',
+        spinnerSize: 28,
+        spinnerColor: '#ffffff'
+      });
     }]);
 
 angular.module('bwwc.controllers', []);
