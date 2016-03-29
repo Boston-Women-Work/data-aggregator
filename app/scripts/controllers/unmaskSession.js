@@ -20,6 +20,6 @@ angular.module('bwwc.controllers')
 
       this.unmask = function () {
         that.loading = true;
-      }
+      };
 
     }]);

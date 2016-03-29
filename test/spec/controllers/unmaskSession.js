@@ -29,6 +29,11 @@ describe('Controller: UnmaskSessionCtrl', function () {
       expect($rootScope.headerTitle).toBe(STRINGS.HEADER_TITLE_UNMASK);
       expect($rootScope.headerSubtitle).toBe(STRINGS.HEADER_SUBTITLE_UNMASK);
     });
+
+    it('loading and loaded should be false', function () {
+      expect(UnmaskSessionCtrl.loaded).toBe(false);
+      expect(UnmaskSessionCtrl.loading).toBe(false);
+    });
   });
 
 });
