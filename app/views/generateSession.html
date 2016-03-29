@@ -8,20 +8,20 @@
   </p>
 </div>
 <br/>
-<input type="submit" value="{{sessionGenerator.buttonLabel}}"
+<input type="submit" value="{{generateSession.buttonLabel}}"
        class="btn btn-primary btn-lg" id="generate"
-       ng-click="sessionGenerator.generateSession()"
-       ng-disabled="sessionGenerator.loading">
+       ng-click="generateSession.generateSession()"
+       ng-disabled="generateSession.loading">
 </input>
-<div id="infoDiv" ng-show="sessionGenerator.sessionGenerated">
+<div id="infoDiv" ng-show="generateSession.sessionGenerated">
   <h3><a id="linkID" ui-sref="session" href="session_data.html"></a></h3>
   <br/>
   <h3>Session Key (please email to participants)</h3>
-  <pre>{{sessionGenerator.sessionID}}</pre>
+  <pre>{{generateSession.sessionID}}</pre>
   <br/>
   <h3>Public Key</h3>
-  <pre>{{sessionGenerator.pubKeyID}}</pre>
+  <pre>{{generateSession.pubKeyID}}</pre>
   <br/>
   <h3>Private Key (do not share)</h3>
-  <pre>{{sessionGenerator.privKeyID}}</pre>
+  <pre>{{generateSession.privKeyID}}</pre>
 </div>

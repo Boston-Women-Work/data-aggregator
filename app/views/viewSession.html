@@ -1,11 +1,11 @@
 <form class="form-inline" role="form" id="inputform">
   <input type="text" id="sess" ng-model="sessionViewer.sessionID" placeholder="Session Number"/>
-  <input type="submit" value="{{sessionViewer.buttonLabel}}"
+  <input type="submit" value="{{viewSession.buttonLabel}}"
          class="btn btn-primary" id="submit"
-         ng-click="sessionViewer.getSessionParticipants(sessionViewer.sessionID)">
+         ng-click="viewSession.getSessionParticipants(viewSession.sessionID)">
 </form>
 <div><a id="unmasklink"></a></div>
-<table class="table table-striped" id="table" ng-show="sessionViewer.participantsLoaded">
+<table class="table table-striped" id="table" ng-show="viewSession.participantsLoaded">
   <thead>
   <tr>
     <th>Email</th>

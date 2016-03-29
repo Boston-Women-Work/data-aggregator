@@ -1,5 +1,10 @@
 #body-wrap {
   padding-left: 8%;
   padding-right: 8%;
-  padding-bottom: 50px;
+}
+
+h1 {
+  font-weight: bold;
+  font-size: 38px;
+  line-height: 0.8;
 }

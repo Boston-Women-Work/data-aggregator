@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col-xs-4">
+    <form>
+      <div class="form-group">
+        <label for="sessKey">Session Key</label>
+        <input type="text" class="form-control" id="sessKey" placeholder="Session Key">
+      </div>
+      <div class="form-group">
+        <label for="maskKey">Private Key <br/><small>(Note this does not upload the key to the server)</small></label>
+        <input type="file" id="maskKey" placeholder="Private Key">
+      </div>
+      <button id="unmask" class="btn btn-primary ladda-button" data-style="expand-left">
+        <span class="ladda-label">Unmask Data</span>
+      </button>
+    </form>
+  </div>
+</div>
+
+<div id="friendly"></div>
+<br/>
+<pre id="result"></pre>
