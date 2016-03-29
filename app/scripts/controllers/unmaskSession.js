@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name bwwc.controllers:UnmaskCtrl
+ * @name bwwc.controllers:UnmaskSessionCtrl
  * @description
- * # UnmaskCtrl
+ * # UnmaskSessionCtrl
  */
 angular.module('bwwc.controllers')
-  .controller('UnmaskCtrl', ['$rootScope', 'STRINGS',
+  .controller('UnmaskSessionCtrl', ['$rootScope', 'STRINGS',
     function ($rootScope, STRINGS) {
       $rootScope.pageTitle = STRINGS.PAGE_TITLE_UNMASK;
       $rootScope.headerTitle = STRINGS.HEADER_TITLE_UNMASK;

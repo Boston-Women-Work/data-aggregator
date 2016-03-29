@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name bwwc.controllers:SessionGeneratorCtrl
+ * @name bwwc.controllers:GenerateSessionCtrl
  * @description
- * # SessionGeneratorCtrl
+ * # GenerateSessionCtrl
  */
 angular.module('bwwc.controllers')
-  .controller('SessionGeneratorCtrl', ['SessionService', 'STRINGS', '$rootScope',
+  .controller('GenerateSessionCtrl', ['SessionService', 'STRINGS', '$rootScope',
     function (SessionService, STRINGS, $rootScope) {
 
       var that = this,

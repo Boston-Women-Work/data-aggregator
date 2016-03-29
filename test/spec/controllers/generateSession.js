@@ -1,11 +1,11 @@
 'use strict';
 
-describe('Controller: SessionGeneratorCtrl', function () {
+describe('Controller: GenerateSessionCtrl', function () {
 
   // load the controller's module
   beforeEach(module('bwwc'));
 
-  var SessionGeneratorCtrl,
+  var GenerateSessionCtrl,
     SessionService,
     STRINGS,
     $rootScope;
@@ -29,7 +29,7 @@ describe('Controller: SessionGeneratorCtrl', function () {
     STRINGS = $injector.get('STRINGS');
     $rootScope = $injector.get('$rootScope');
 
-    SessionGeneratorCtrl = $controller('SessionGeneratorCtrl', {
+    GenerateSessionCtrl = $controller('GenerateSessionCtrl', {
       SessionService: SessionService,
       $rootScope: $rootScope
     });
@@ -38,15 +38,15 @@ describe('Controller: SessionGeneratorCtrl', function () {
   describe('initial state', function () {
 
     it('button label should be set', function () {
-      expect(SessionGeneratorCtrl.buttonLabel).toBe(STRINGS.GENERATE_SESSION_BUTTON_NORMAL);
+      expect(GenerateSessionCtrl.buttonLabel).toBe(STRINGS.GENERATE_SESSION_BUTTON_NORMAL);
     });
 
     it('loading should be false', function () {
-      expect(SessionGeneratorCtrl.loading).toBe(false);
+      expect(GenerateSessionCtrl.loading).toBe(false);
     });
 
     it('sessionGenerated should be undefined', function () {
-      expect(SessionGeneratorCtrl.sessionGenerated).toBe(undefined);
+      expect(GenerateSessionCtrl.sessionGenerated).toBe(undefined);
     });
 
     it('page and header title should be correct', function () {
@@ -59,20 +59,20 @@ describe('Controller: SessionGeneratorCtrl', function () {
   describe('generateSession before completed', function () {
 
     it('button label should change', function () {
-      SessionGeneratorCtrl.generateSession();
-      expect(SessionGeneratorCtrl.buttonLabel).toBe(STRINGS.GENERATE_SESSION_BUTTON_LOADING);
+      GenerateSessionCtrl.generateSession();
+      expect(GenerateSessionCtrl.buttonLabel).toBe(STRINGS.GENERATE_SESSION_BUTTON_LOADING);
     });
 
     it('loading should be true', function () {
-      SessionGeneratorCtrl.generateSession();
-      expect(SessionGeneratorCtrl.loading).toBe(true);
+      GenerateSessionCtrl.generateSession();
+      expect(GenerateSessionCtrl.loading).toBe(true);
     });
 
     it('key ids should not be set', function () {
-      SessionGeneratorCtrl.generateSession();
-      expect(SessionGeneratorCtrl.sessionID).not.toBeTruthy();
-      expect(SessionGeneratorCtrl.pubKeyID).not.toBeTruthy();
-      expect(SessionGeneratorCtrl.privKeyID).not.toBeTruthy();
+      GenerateSessionCtrl.generateSession();
+      expect(GenerateSessionCtrl.sessionID).not.toBeTruthy();
+      expect(GenerateSessionCtrl.pubKeyID).not.toBeTruthy();
+      expect(GenerateSessionCtrl.privKeyID).not.toBeTruthy();
     });
   });
 
@@ -88,29 +88,29 @@ describe('Controller: SessionGeneratorCtrl', function () {
     }));
 
     it('button label should reset to initial state', function () {
-      SessionGeneratorCtrl.generateSession();
+      GenerateSessionCtrl.generateSession();
       $rootScope.$apply();
-      expect(SessionGeneratorCtrl.buttonLabel).toBe(STRINGS.GENERATE_SESSION_BUTTON_NORMAL);
+      expect(GenerateSessionCtrl.buttonLabel).toBe(STRINGS.GENERATE_SESSION_BUTTON_NORMAL);
     });
 
     it('loading should be false', function () {
-      SessionGeneratorCtrl.generateSession();
+      GenerateSessionCtrl.generateSession();
       $rootScope.$apply();
-      expect(SessionGeneratorCtrl.loading).toBe(false);
+      expect(GenerateSessionCtrl.loading).toBe(false);
     });
 
     it('sessionGenerated should be true', function () {
-      SessionGeneratorCtrl.generateSession();
+      GenerateSessionCtrl.generateSession();
       $rootScope.$apply();
-      expect(SessionGeneratorCtrl.sessionGenerated).toBe(true);
+      expect(GenerateSessionCtrl.sessionGenerated).toBe(true);
     });
 
     it('key ids should be set', function () {
-      SessionGeneratorCtrl.generateSession();
+      GenerateSessionCtrl.generateSession();
       $rootScope.$apply();
-      expect(SessionGeneratorCtrl.sessionID).toBe(123);
-      expect(SessionGeneratorCtrl.pubKeyID).toBe(2);
-      expect(SessionGeneratorCtrl.privKeyID).toBe(1);
+      expect(GenerateSessionCtrl.sessionID).toBe(123);
+      expect(GenerateSessionCtrl.pubKeyID).toBe(2);
+      expect(GenerateSessionCtrl.privKeyID).toBe(1);
     });
   });
 
@@ -126,23 +126,23 @@ describe('Controller: SessionGeneratorCtrl', function () {
     }));
 
     it('should return error message for database error', function () {
-      SessionGeneratorCtrl.generateSession();
+      GenerateSessionCtrl.generateSession();
       $rootScope.$apply();
-      expect(SessionGeneratorCtrl.sessionID).toBe(STRINGS.GENERATE_SESSION_ERROR);
-      expect(SessionGeneratorCtrl.pubKeyID).toBe(STRINGS.GENERATE_SESSION_ERROR);
-      expect(SessionGeneratorCtrl.privKeyID).toBe(STRINGS.GENERATE_SESSION_ERROR);
+      expect(GenerateSessionCtrl.sessionID).toBe(STRINGS.GENERATE_SESSION_ERROR);
+      expect(GenerateSessionCtrl.pubKeyID).toBe(STRINGS.GENERATE_SESSION_ERROR);
+      expect(GenerateSessionCtrl.privKeyID).toBe(STRINGS.GENERATE_SESSION_ERROR);
     });
 
     it('button label should reset to initial state', function () {
-      SessionGeneratorCtrl.generateSession();
+      GenerateSessionCtrl.generateSession();
       $rootScope.$apply();
-      expect(SessionGeneratorCtrl.buttonLabel).toBe(STRINGS.GENERATE_SESSION_BUTTON_NORMAL);
+      expect(GenerateSessionCtrl.buttonLabel).toBe(STRINGS.GENERATE_SESSION_BUTTON_NORMAL);
     });
 
     it('loading should be false', function () {
-      SessionGeneratorCtrl.generateSession();
+      GenerateSessionCtrl.generateSession();
       $rootScope.$apply();
-      expect(SessionGeneratorCtrl.loading).toBe(false);
+      expect(GenerateSessionCtrl.loading).toBe(false);
     });
   });
 });

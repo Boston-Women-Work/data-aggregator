@@ -1,11 +1,11 @@
 'use strict';
 
-describe('Controller: SessionViewerCtrl', function () {
+describe('Controller: ViewSessionCtrl', function () {
 
   // load the controller's module
   beforeEach(module('bwwc'));
 
-  var SessionViewerCtrl,
+  var ViewSessionCtrl,
     SessionService,
     $rootScope,
     $interval,
@@ -24,7 +24,7 @@ describe('Controller: SessionViewerCtrl', function () {
     STRINGS = $injector.get('STRINGS');
     $interval = $injector.get('$interval');
 
-    SessionViewerCtrl = $controller('SessionViewerCtrl', {
+    ViewSessionCtrl = $controller('ViewSessionCtrl', {
       SessionService: SessionService,
       $interval: $interval
     });
@@ -51,25 +51,25 @@ describe('Controller: SessionViewerCtrl', function () {
     });
 
     it('getSessionParticipants should be called', function () {
-      SessionViewerCtrl.getSessionParticipants();
+      ViewSessionCtrl.getSessionParticipants();
       $rootScope.$apply();
       expect(SessionService.getSessionParticipants).toHaveBeenCalledTimes(1);
     });
 
     it('should set list of participants', function () {
-      SessionViewerCtrl.getSessionParticipants();
+      ViewSessionCtrl.getSessionParticipants();
       $rootScope.$apply();
-      expect(SessionViewerCtrl.participants).toEqual(participants);
+      expect(ViewSessionCtrl.participants).toEqual(participants);
     });
 
     it('participantsLoaded should be true', function () {
-      SessionViewerCtrl.getSessionParticipants();
+      ViewSessionCtrl.getSessionParticipants();
       $rootScope.$apply();
-      expect(SessionViewerCtrl.participantsLoaded).toBe(true);
+      expect(ViewSessionCtrl.participantsLoaded).toBe(true);
     });
 
     it('timer should be called continuously', function () {
-      SessionViewerCtrl.getSessionParticipants();
+      ViewSessionCtrl.getSessionParticipants();
       $rootScope.$apply();
       $interval.flush(9999);
       // Don't call again yet
@@ -99,15 +99,15 @@ describe('Controller: SessionViewerCtrl', function () {
     }));
 
     it('should set error message to participants', function () {
-      SessionViewerCtrl.getSessionParticipants();
+      ViewSessionCtrl.getSessionParticipants();
       $rootScope.$apply();
-      expect(SessionViewerCtrl.participants).toEqual(errorMsg);
+      expect(ViewSessionCtrl.participants).toEqual(errorMsg);
     });
 
     it('participantsLoaded should be true', function () {
-      SessionViewerCtrl.getSessionParticipants();
+      ViewSessionCtrl.getSessionParticipants();
       $rootScope.$apply();
-      expect(SessionViewerCtrl.participantsLoaded).toBe(true);
+      expect(ViewSessionCtrl.participantsLoaded).toBe(true);
     });
   });
 

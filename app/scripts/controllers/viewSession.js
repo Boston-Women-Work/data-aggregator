@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name bwwc.controllers:SessionViewerCtrl
+ * @name bwwc.controllers:ViewSessionCtrl
  * @description
- * # SessionViewerCtrl
+ * # ViewSessionCtrl
  */
 angular.module('bwwc.controllers')
-  .controller('SessionViewerCtrl', ['SessionService', 'STRINGS', '$interval', '$rootScope',
+  .controller('ViewSessionCtrl', ['SessionService', 'STRINGS', '$interval', '$rootScope',
     function (SessionService, STRINGS, $interval, $rootScope) {
 
       var that = this,

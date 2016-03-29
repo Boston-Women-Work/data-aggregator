@@ -20,20 +20,20 @@ angular
           templateUrl: 'views/client.html',
           controller: 'ClientCtrl as client'
         })
-        .state('sessionGenerator', {
-          url: '/session-generator',
-          templateUrl: 'views/sessionGenerator.html',
-          controller: 'SessionGeneratorCtrl as sessionGenerator'
+        .state('generateSession', {
+          url: '/generate-session',
+          templateUrl: 'views/generateSession.html',
+          controller: 'GenerateSessionCtrl as generateSession'
         })
-        .state('sessionViewer', {
-          url: '/session-viewer',
-          templateUrl: 'views/sessionViewer.html',
-          controller: 'SessionViewerCtrl as sessionViewer'
+        .state('viewSession', {
+          url: '/view-session',
+          templateUrl: 'views/viewSession.html',
+          controller: 'ViewSessionCtrl as viewSession'
         })
-        .state('unmask', {
-          url: '/unmask',
-          templateUrl: 'views/unmask.html',
-          controller: 'UnmaskCtrl as unmask'
+        .state('unmaskSession', {
+          url: '/unmask-session',
+          templateUrl: 'views/unmaskSession.html',
+          controller: 'UnmaskSessionCtrl as unmaskSession'
         });
 
       $urlRouterProvider.otherwise('/');

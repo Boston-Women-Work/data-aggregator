@@ -1,11 +1,11 @@
 'use strict';
 
-describe('Controller: UnmaskCtrl', function () {
+describe('Controller: UnmaskSessionCtrl', function () {
 
   // load the controller's module
   beforeEach(module('bwwc'));
 
-  var UnmaskCtrl,
+  var UnmaskSessionCtrl,
     $rootScope,
     STRINGS;
 
@@ -14,7 +14,7 @@ describe('Controller: UnmaskCtrl', function () {
 
     STRINGS = $injector.get('STRINGS');
 
-    UnmaskCtrl = $controller('UnmaskCtrl', {
+    UnmaskSessionCtrl = $controller('UnmaskSessionCtrl', {
     });
   }));
 
