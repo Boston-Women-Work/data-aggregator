@@ -7,8 +7,8 @@
  * # UnmaskSessionCtrl
  */
 angular.module('bwwc.controllers')
-  .controller('UnmaskSessionCtrl', ['$rootScope', 'STRINGS',
-    function ($rootScope, STRINGS) {
+  .controller('UnmaskSessionCtrl', ['$rootScope', 'STRINGS', 'SessionService', 'FileReaderService',
+    function ($rootScope, STRINGS, SessionService, FileReaderService) {
 
       var that = this;
       this.loaded = false;
@@ -20,6 +20,28 @@ angular.module('bwwc.controllers')
 
       this.unmask = function () {
         that.loading = true;
+
+        if (that.sessionKey && that.privateKey) {
+          FileReaderService.readPrivateKey(document.getElementById('privateKey').files[0])
+
+            .then(function success(file) {
+              var decryptObj = new window.JSEncrypt();
+              decryptObj.setPrivateKey(file);
+
+              return SessionService.unmask(file);
+              // FileReaderService error
+            }, function error() {
+              console.error('Failed loading private key');
+            })
+
+            // SessionService.unmask()
+            .then(function success() {
+
+            }, function error() {
+
+            });
+        }
+
       };
 
     }]);

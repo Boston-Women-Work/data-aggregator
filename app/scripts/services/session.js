@@ -67,7 +67,7 @@ angular.module('bwwc.services')
        * @param sessionID The session ID
        * @param last_fetch Last time participants have been fetched
        * @returns List of participants in the form of {hash: time_stamp, hash2: time_stamp}
-         */
+       */
       session.getSessionParticipants = function (sessionID, last_fetch) {
         if (last_fetch === undefined) {
           last_fetch = 0;
@@ -80,14 +80,31 @@ angular.module('bwwc.services')
         }).then(function successCallback(response) {
           return response;
         }, function errorCallback() {
-          var error =  {};
+          var error = {};
           error[STRINGS.GET_SESSION_PARTICIPANTS_ERROR] = STRINGS.GET_SESSION_PARTICIPANTS_ERROR;
           return error;
         });
       };
 
-      session.unmask = function () {
-
+      /**
+       *
+       * @param sessionKey
+       */
+      session.getMasks = function (sessionKey) {
+        return $http({
+          url: '/get_masks',
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          params: {session: sessionKey}
+        }).then(function successCallback(response) {
+          return response;
+        }, function errorCallback() {
+          var error = {};
+          error[STRINGS.GET_SESSION_MASKS_ERROR] = STRINGS.GET_SESSION_MASKS_ERROR;
+          return error;
+        });
       };
 
       return session;

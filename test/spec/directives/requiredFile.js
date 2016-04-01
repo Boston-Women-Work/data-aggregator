@@ -10,7 +10,7 @@ describe('Directive: ngRequiredFile', function () {
 
   // Store references to $rootScope and $compile
   // so they are available to all tests in this describe block
-  beforeEach(inject(function ($compile, $rootScope, ngModelDirective) {
+  beforeEach(inject(function ($compile, $rootScope) {
     compile = $compile;
     scope = $rootScope.$new();
   }));
