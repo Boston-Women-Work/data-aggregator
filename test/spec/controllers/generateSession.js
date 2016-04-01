@@ -120,7 +120,7 @@ describe('Controller: GenerateSessionCtrl', function () {
       // This is the error response
       spyOn(SessionService, 'storeSession').and.callFake(function () {
         var def = $q.defer();
-        def.reject({error: STRINGS.GENERATE_SESSION_ERROR});
+        def.resolve({error: STRINGS.GENERATE_SESSION_ERROR});
         return def.promise;
       });
     }));
