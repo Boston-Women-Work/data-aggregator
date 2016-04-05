@@ -28,10 +28,8 @@ angular.module('bwwc.controllers')
       this.getSessionParticipants = function (sessionID) {
 
         SessionService.getSessionParticipants(sessionID)
-          // Both success and error do the same but get a different callback
-          .then(function successCallback(response) {
-            setParticipantData(response);
-          }, function errorCallback(response) {
+          // Both success and error are handled in the same way
+          .then(function (response) {
             setParticipantData(response);
           });
 

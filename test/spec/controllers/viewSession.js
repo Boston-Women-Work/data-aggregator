@@ -93,7 +93,7 @@ describe('Controller: ViewSessionCtrl', function () {
         var def = $q.defer();
         errorMsg = {};
         errorMsg[STRINGS.GET_SESSION_PARTICIPANTS_ERROR] = STRINGS.GET_SESSION_PARTICIPANTS_ERROR;
-        def.reject(errorMsg);
+        def.resolve(errorMsg);
         return def.promise;
       });
     }));
