@@ -5,7 +5,9 @@
          ng-click="viewSession.getSessionParticipants(viewSession.sessionID)">
 </form>
 <div><a id="unmasklink"></a></div>
-<table class="table table-striped" id="table" ng-show="viewSession.participantsLoaded">
+<br/>
+<pre ng-if="viewSession.errorMsg">{{viewSession.errorMsg}}</pre>
+<table class="table table-striped" id="table" ng-if="viewSession.participants">
   <thead>
   <tr>
     <th>Email</th>
@@ -13,7 +15,7 @@
   </tr>
   </thead>
   <tbody id="participants">
-  <tr ng-repeat="(participant, participantDate) in sessionViewer.participants">
+  <tr ng-repeat="(participant, participantDate) in viewSession.participants">
     <td>{{participant}}</td>
     <td>{{participantDate | date:'medium'}}</td>
   </tr>

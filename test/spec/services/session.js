@@ -162,8 +162,9 @@ describe('Service: SessionService', function () {
 
       SessionService.getSessionParticipants(123, 456)
         .then(function (response) {
-          var error =  {};
-          error[STRINGS.GET_SESSION_PARTICIPANTS_ERROR] = STRINGS.GET_SESSION_PARTICIPANTS_ERROR;
+          var error =  {
+            error: STRINGS.GET_SESSION_PARTICIPANTS_ERROR
+          };
           expect(response).toEqual(error);
           done();
         });

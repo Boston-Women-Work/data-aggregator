@@ -62,12 +62,6 @@ describe('Controller: ViewSessionCtrl', function () {
       expect(ViewSessionCtrl.participants).toEqual(participants);
     });
 
-    it('participantsLoaded should be true', function () {
-      ViewSessionCtrl.getSessionParticipants();
-      $rootScope.$apply();
-      expect(ViewSessionCtrl.participantsLoaded).toBe(true);
-    });
-
     it('timer should be called continuously', function () {
       ViewSessionCtrl.getSessionParticipants();
       $rootScope.$apply();
@@ -91,8 +85,9 @@ describe('Controller: ViewSessionCtrl', function () {
       // This is the error response
       spyOn(SessionService, 'getSessionParticipants').and.callFake(function () {
         var def = $q.defer();
-        errorMsg = {};
-        errorMsg[STRINGS.GET_SESSION_PARTICIPANTS_ERROR] = STRINGS.GET_SESSION_PARTICIPANTS_ERROR;
+        errorMsg = {
+          error: STRINGS.GET_SESSION_PARTICIPANTS_ERROR
+        };
         def.resolve(errorMsg);
         return def.promise;
       });
@@ -101,13 +96,21 @@ describe('Controller: ViewSessionCtrl', function () {
     it('should set error message to participants', function () {
       ViewSessionCtrl.getSessionParticipants();
       $rootScope.$apply();
-      expect(ViewSessionCtrl.participants).toEqual(errorMsg);
+      expect(ViewSessionCtrl.errorMsg).toEqual(errorMsg.error);
     });
 
     it('participantsLoaded should be true', function () {
       ViewSessionCtrl.getSessionParticipants();
       $rootScope.$apply();
-      expect(ViewSessionCtrl.participantsLoaded).toBe(true);
+      expect(ViewSessionCtrl.participants).toBe(undefined);
+    });
+
+    it('timer should not be started', function () {
+      ViewSessionCtrl.getSessionParticipants();
+      $rootScope.$apply();
+      $interval.flush(10000);
+      // Don't call again
+      expect(SessionService.getSessionParticipants).toHaveBeenCalledTimes(1);
     });
   });
 

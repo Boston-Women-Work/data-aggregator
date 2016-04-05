@@ -13,7 +13,6 @@ angular.module('bwwc.controllers')
       var that = this,
         stop;
       this.buttonLabel = STRINGS.GET_SESSION_PARTICIPANTS_BUTTON;
-      this.participantsLoaded = false;
 
       $rootScope.pageTitle = STRINGS.PAGE_TITLE_SESSION_VIEWER;
       $rootScope.headerTitle = STRINGS.HEADER_TITLE_SESSION_VIEWER;
@@ -28,23 +27,27 @@ angular.module('bwwc.controllers')
       this.getSessionParticipants = function (sessionID) {
 
         SessionService.getSessionParticipants(sessionID)
-          // Both success and error are handled in the same way
           .then(function (response) {
-            setParticipantData(response);
+            if (response.error) {
+              that.participants = undefined;
+              that.errorMsg = response.error;
+              // Stop timer if it was already running
+              $interval.cancel(stop);
+            } else {
+              that.errorMsg = undefined;
+              that.participants = response;
+            }
+
+            // Don't continue if interval is already defined
+            if (angular.isDefined(stop) || that.errorMsg) {
+              console.log('timer stop');
+              return;
+            }
+            console.log('timer not stopping', that.errorMsg);
+            // Refresh participants every 10 seconds
+            stop = $interval(function () {
+              that.getSessionParticipants(sessionID);
+            }, 10000);
           });
-
-        // Don't continue if interval is already defined
-        if (angular.isDefined(stop)) {
-          return;
-        }
-        // Refresh participants every 10 seconds
-        stop = $interval(function () {
-          that.getSessionParticipants(sessionID);
-        }, 10000);
       };
-
-      function setParticipantData(response) {
-        that.participantsLoaded = true;
-        that.participants = response;
-      }
     }]);
