@@ -40,10 +40,8 @@ angular.module('bwwc.controllers')
 
             // Don't continue if interval is already defined
             if (angular.isDefined(stop) || that.errorMsg) {
-              console.log('timer stop');
               return;
             }
-            console.log('timer not stopping', that.errorMsg);
             // Refresh participants every 10 seconds
             stop = $interval(function () {
               that.getSessionParticipants(sessionID);

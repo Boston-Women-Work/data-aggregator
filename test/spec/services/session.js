@@ -17,6 +17,8 @@ describe('Service: SessionService', function () {
     SessionService = $injector.get('SessionService');
     // rootScope is needed to resolve promises
     $rootScope = $injector.get('$rootScope');
+    // Get app strings
+    STRINGS = $injector.get('STRINGS');
   }));
 
 
@@ -75,8 +77,6 @@ describe('Service: SessionService', function () {
   describe('store session', function () {
 
     beforeEach(inject(function ($injector) {
-      // Get app strings
-      STRINGS = $injector.get('STRINGS');
       // Set up the mock http service
       $httpBackend = $injector.get('$httpBackend');
       // backend definition common for all tests
@@ -121,17 +121,15 @@ describe('Service: SessionService', function () {
   describe('get session participants', function () {
 
     beforeEach(inject(function ($injector) {
-      // Get app strings
-      STRINGS = $injector.get('STRINGS');
       // Set up the mock http service
       $httpBackend = $injector.get('$httpBackend');
       // backend definition common for all tests
       handler = $httpBackend
         .when('GET', /\/get_participants\?last_fetch=(\d+)&session=(\d+)/g)
         .respond(200, {
-        '123abc': 'date 1',
-        'abc123': 'date 2'
-      });
+          '123abc': 'date 1',
+          'abc123': 'date 2'
+        });
     }));
 
     it('should return list of participants', function (done) {
@@ -162,8 +160,45 @@ describe('Service: SessionService', function () {
 
       SessionService.getSessionParticipants(123, 456)
         .then(function (response) {
-          var error =  {
+          var error = {
             error: STRINGS.GET_SESSION_PARTICIPANTS_ERROR
+          };
+          expect(response).toEqual(error);
+          done();
+        });
+
+      $httpBackend.flush();
+    });
+  });
+
+  describe('get masks', function () {
+
+    beforeEach(inject(function ($injector) {
+      // Set up the mock http service
+      $httpBackend = $injector.get('$httpBackend');
+      // backend definition common for all tests
+      handler = $httpBackend.when('GET', /\/get_masks\?session=(\d+)/).respond(200, {
+        data: "foo"
+      });
+    }));
+
+    it('should return masks', function (done) {
+      SessionService.getMasks(1)
+        .then(function (response) {
+          expect(response.data).toEqual({data: "foo"});
+          done();
+        });
+
+      $httpBackend.flush();
+    });
+
+    it('should return error on 500 status', function (done) {
+      handler.respond(500, 'error');
+
+      SessionService.getMasks(1)
+        .then(function (response) {
+          var error = {
+            error: STRINGS.GET_SESSION_MASKS_ERROR
           };
           expect(response).toEqual(error);
           done();

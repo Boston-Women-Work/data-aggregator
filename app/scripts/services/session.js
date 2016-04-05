@@ -87,8 +87,8 @@ angular.module('bwwc.services')
       };
 
       /**
-       *
-       * @param sessionKey
+       * Get all masks for a given session.
+       * @param sessionKey Session ID
        */
       session.getMasks = function (sessionKey) {
         return $http({
