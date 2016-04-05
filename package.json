@@ -1,5 +1,5 @@
 {
-  "name": "data-aggregator",
+  "name": "boston-women-work-data-aggregator",
   "version": "0.2.0",
   "description": "Implementation of a data collection and aggregation infrastructure that supports individual data obfuscation.",
   "scripts": {
