@@ -24,6 +24,7 @@ module.exports = function (config) {
       'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/handsontable/dist/handsontable.full.min.js',
       'bower_components/file-saver.js/FileSaver.js',
+      'bower_components/underscore/underscore-min.js',
       'bower_components/**/*.min.js',
       'app/scripts/**/*.js',
       'test/spec/**/*.js'

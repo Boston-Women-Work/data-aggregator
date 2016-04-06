@@ -118,6 +118,7 @@ describe('Service: SessionService', function () {
     });
   });
 
+
   describe('get session participants', function () {
 
     beforeEach(inject(function ($injector) {
@@ -171,6 +172,7 @@ describe('Service: SessionService', function () {
     });
   });
 
+
   describe('get masks', function () {
 
     beforeEach(inject(function ($injector) {
@@ -205,6 +207,31 @@ describe('Service: SessionService', function () {
         });
 
       $httpBackend.flush();
+    });
+  });
+
+
+  describe('decrypt masks', function () {
+    it('should return decrypted masks', function () {
+      var privateKey = ['-----BEGIN RSA PRIVATE KEY-----',
+        'MIICXAIBAAKBgQC+slfL+yjqEAozo8otIg/X/a1pRrvH0OvP2T4UFDYO+xXgzVFY',
+        'xIbV5Oz6LDLamfh1E0DBGiGKsgZ4vpLHl1LqoLhSME0y4HAkFhXmHXwZ/JNmYL3z',
+        'qgvkuKYscJDwreWjaeXoA5IA0o+Ut6bUblFuVOpC6hJJtpplN0OXnu3dQwIDAQAB',
+        'AoGAItdm3ygGc612j7TPTau5hVceBewchweO7izdAMIollgdyTL6N+PAVvg6rALD',
+        'T9lt4cYgwKdLlZGtSQZYvwrQ5SiZp+9/h6bLpl7qWJ2V9sV3/3QsxQBfbO4vQMEg',
+        '5N98gSNzfwJP5KLvM1mBJMgeGvqxbG7wW1GdeeYHsU6WxcECQQDpFVd2wM+t/AgY',
+        'Jduu17pbGBMB1MZUSfPmQuuDqdkBg2yAQVTgHvIXz7HH+gKJq/Y7LGbzF+Sm2jJG',
+        'E7jk+8dRAkEA0XIjBavgY684dSKikj+KGliK6VFmLjIy5K9NZyi6XUrP0ieJZLk/',
+        'gAtkshdTxNtzYUT0X2Ejz7kcgQm+LjTeUwJAICL9KDZ1a/uv8gRmQbkkzKKJHFuF',
+        '7OE1a64WYtTsQrUoJJbdaPlbT8UnMfdamjjHfmkk2KeWsxqqi9b0Sz4bwQJBAJ+z',
+        'CrdBVehMa50NGq6u2iu6hbjfwyzIQ/wRGtDkwi1uZMYWNXHiumN0zIPqu4nn1rM9',
+        'M6QiWn8B45UUi7mJwFcCQHIURDrwCZWodWUYWF3J04mDN42wK6fnaD5aWcNjgVvO',
+        'fqtX83Hut4ntch9j9IS1yqvB7yzfgquniQPY2+7jHZo=',
+        '-----END RSA PRIVATE KEY-----'].join('\n');
+      var data = '[{\"_id\":\"d10ca8d11301c2f4993ac2279ce4b930\",\"session\":3429008,\"fields\":{\"foo\":\"Ed8L1oN00N15OqfNWG5sOnoE7XLmirHFfmmX+Yx0PzTQvUruCZEmkZL+N3jHe8svVX/9AiRI3RLN05KI6nv30LxQ89E2h9c1ya+ZyQOB8EaZgI7WuWdASCiCtjXfJ16Bdk9XxAugR4nphzE3YkE/o8vo0fAxTuzTdp95KHmp46Y=\", \"bar\":\"Ed8L1oN00N15OqfNWG5sOnoE7XLmirHFfmmX+Yx0PzTQvUruCZEmkZL+N3jHe8svVX/9AiRI3RLN05KI6nv30LxQ89E2h9c1ya+ZyQOB8EaZgI7WuWdASCiCtjXfJ16Bdk9XxAugR4nphzE3YkE/o8vo0fAxTuzTdp95KHmp46Y=\"}}]';
+
+      var decryptedMask = SessionService.decryptMasks(data, privateKey);
+      expect(decryptedMask).toEqual([{foo: '436948924', bar: '436948924'}]);
     });
   });
 

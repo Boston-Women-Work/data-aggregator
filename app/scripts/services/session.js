@@ -7,7 +7,7 @@ angular.module('bwwc.services')
 
       /**
        * Generate new public and private key using JSEncrypt
-       * @returns deferred.promise
+       * @returns Function Deferred.promise
        */
       session.generateSession = function () {
         var sessionID = Math.floor((Math.random() * 8999999) + 1000000);
@@ -82,7 +82,7 @@ angular.module('bwwc.services')
         }, function errorCallback() {
           return {
             error: STRINGS.GET_SESSION_PARTICIPANTS_ERROR
-          }
+          };
         });
       };
 
@@ -103,8 +103,35 @@ angular.module('bwwc.services')
         }, function errorCallback() {
           return {
             error: STRINGS.GET_SESSION_MASKS_ERROR
-          }
+          };
         });
+      };
+
+      /**
+       * Decrypt session masks.
+       * @param masks The masks to decrypt, should contain a fields property with the masked data ({fields: {foo: 1}})
+       * @param privateKey The private key to decrypt the masks
+       */
+      session.decryptMasks = function (masks, privateKey) {
+
+        var decryptObj = new window.JSEncrypt();
+        decryptObj.setPrivateKey(privateKey);
+
+        var mOut = JSON.parse(masks);
+        var maskedData = [];
+
+        mOut.forEach(function (element) {
+          maskedData.push(element.fields);
+        });
+
+        // Decrypt the JSON data.
+        var decryptedJson = _.map(maskedData, function (submission) {
+          return _.mapObject(submission, function (val) {
+            return decryptObj.decrypt(val);
+          });
+        });
+
+        return decryptedJson;
       };
 
       return session;
