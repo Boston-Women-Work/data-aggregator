@@ -158,7 +158,7 @@ app.get('/get_participants', function (req, res) {
 
 
 // endpoint for getting all of the masks for a specific session
-app.post('/get_masks', function (req, res) {
+app.get('/get_masks', function (req, res) {
     Mask.where({session: req.body.session}).find(function (err, data) {
         res.send({ data: JSON.stringify(data) });
     });
