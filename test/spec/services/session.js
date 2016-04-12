@@ -235,4 +235,42 @@ describe('Service: SessionService', function () {
     });
   });
 
+
+  describe('calculate final aggregate', function () {
+
+    beforeEach(inject(function ($injector) {
+      // Set up the mock http service
+      $httpBackend = $injector.get('$httpBackend');
+      // backend definition common for all tests
+      handler = $httpBackend.when('POST', '/submit_agg', '{"data":{"foo":"bar"},"session":2}').respond(200, {
+        data: "foo"
+      });
+    }));
+
+    it('should return data', function (done) {
+      SessionService.calculateFinalAggregate({foo: 'bar'}, 2)
+        .then(function (response) {
+          expect(response.data).toEqual({data: "foo"});
+          done();
+        });
+
+      $httpBackend.flush();
+    });
+
+    it('should return error on 500 status', function (done) {
+      handler.respond(500, {error: STRINGS.CALCULATE_FINAL_AGGREGATE_ERROR});
+
+      SessionService.calculateFinalAggregate({foo: 'bar'}, 2)
+        .then(function (response) {
+          var error = {
+            error: STRINGS.CALCULATE_FINAL_AGGREGATE_ERROR
+          };
+          expect(response.data).toEqual(error);
+          done();
+        });
+
+      $httpBackend.flush();
+    });
+  });
+
 });

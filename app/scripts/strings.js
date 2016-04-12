@@ -23,5 +23,6 @@ angular.module('bwwc.strings')
     PAGE_TITLE_UNMASK: 'Trusted Party Data Unmasker',
     HEADER_TITLE_UNMASK: 'Trusted Party',
     HEADER_SUBTITLE_UNMASK: 'Aggregate Data Unmasker',
-    GET_SESSION_MASKS_ERROR: 'Failed to retrieve session masks.'
+    GET_SESSION_MASKS_ERROR: 'Failed to retrieve session masks.',
+    CALCULATE_FINAL_AGGREGATE_ERROR: 'Failed to retrieve session aggregate.'
   });

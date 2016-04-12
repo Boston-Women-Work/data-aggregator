@@ -134,5 +134,26 @@ angular.module('bwwc.services')
         return decryptedJson;
       };
 
+      /**
+       * Send masked aggregate to server and get back the final aggregate values.
+       * @param aggregatedMasks Aggregate of all masked values
+       * @param sessionKey Session ID
+       * @returns
+         */
+      session.calculateFinalAggregate = function (aggregatedMasks, sessionKey) {
+        return $http({
+          url: '/submit_agg',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          data: JSON.stringify({data: aggregatedMasks, session: sessionKey})
+        }).then(function success(response) {
+          return response;
+        }, function error(response) {
+          return response;
+        });
+      };
+
       return session;
     }]);
