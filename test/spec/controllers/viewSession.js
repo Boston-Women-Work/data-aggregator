@@ -34,14 +34,12 @@ describe('Controller: ViewSessionCtrl', function () {
 
     beforeEach(inject(function ($injector, $q) {
       $rootScope = $injector.get('$rootScope');
+      var def = $q.defer();
+      participants = {email1: "date1", email2: "date2"};
+      def.resolve(participants);
 
       // This is the successful response
-      spyOn(SessionService, 'getSessionParticipants').and.callFake(function () {
-        var def = $q.defer();
-        participants = {email1: "date1", email2: "date2"};
-        def.resolve(participants);
-        return def.promise;
-      });
+      spyOn(SessionService, 'getSessionParticipants').and.returnValue(def.promise);
     }));
 
     it('page and header title should be correct', function () {
@@ -88,7 +86,7 @@ describe('Controller: ViewSessionCtrl', function () {
         errorMsg = {
           error: STRINGS.GET_SESSION_PARTICIPANTS_ERROR
         };
-        def.resolve(errorMsg);
+        def.reject(errorMsg);
         return def.promise;
       });
     }));

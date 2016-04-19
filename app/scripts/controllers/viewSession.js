@@ -7,8 +7,8 @@
  * # ViewSessionCtrl
  */
 angular.module('bwwc.controllers')
-  .controller('ViewSessionCtrl', ['SessionService', 'STRINGS', '$interval', '$rootScope',
-    function (SessionService, STRINGS, $interval, $rootScope) {
+  .controller('ViewSessionCtrl', ['$q', 'SessionService', 'STRINGS', '$interval', '$rootScope',
+    function ($q, SessionService, STRINGS, $interval, $rootScope) {
 
       var that = this,
         stop;
@@ -27,16 +27,9 @@ angular.module('bwwc.controllers')
       this.getSessionParticipants = function (sessionID) {
 
         SessionService.getSessionParticipants(sessionID)
-          .then(function (response) {
-            if (response.error) {
-              that.participants = undefined;
-              that.errorMsg = response.error;
-              // Stop timer if it was already running
-              $interval.cancel(stop);
-            } else {
-              that.errorMsg = undefined;
-              that.participants = response;
-            }
+          .then(function success(response) {
+            that.errorMsg = undefined;
+            that.participants = response;
 
             // Don't continue if interval is already defined
             if (angular.isDefined(stop) || that.errorMsg) {
@@ -46,6 +39,12 @@ angular.module('bwwc.controllers')
             stop = $interval(function () {
               that.getSessionParticipants(sessionID);
             }, 10000);
+
+          }, function error(response) {
+            that.participants = undefined;
+            that.errorMsg = response.error;
+            // Stop timer if it was already running
+            $interval.cancel(stop);
           });
       };
     }]);

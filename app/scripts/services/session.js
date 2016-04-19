@@ -56,9 +56,9 @@ angular.module('bwwc.services')
             }
           };
         }, function errorCallback() {
-          return {
+          return $q.reject({
             error: STRINGS.GENERATE_SESSION_ERROR
-          };
+          });
         });
       };
 
@@ -80,9 +80,9 @@ angular.module('bwwc.services')
         }).then(function successCallback(response) {
           return response;
         }, function errorCallback() {
-          return {
+          return $q.reject({
             error: STRINGS.GET_SESSION_PARTICIPANTS_ERROR
-          };
+          });
         });
       };
 
@@ -101,9 +101,9 @@ angular.module('bwwc.services')
         }).then(function successCallback(response) {
           return response;
         }, function errorCallback() {
-          return {
+          return $q.reject({
             error: STRINGS.GET_SESSION_MASKS_ERROR
-          };
+          });
         });
       };
 
@@ -151,7 +151,7 @@ angular.module('bwwc.services')
         }).then(function success(response) {
           return response;
         }, function error(response) {
-          return response;
+          return $q.reject(response);
         });
       };
 

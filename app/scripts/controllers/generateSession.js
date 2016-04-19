@@ -32,20 +32,19 @@ angular.module('bwwc.controllers')
             return SessionService.storeSession(resp.privKeyID, resp.pubKeyID, resp.priBlob, resp.sessionID);
           })
           // SessionService.storeSession
-          .then(function (response) {
-            if (response.error) {
-              resetLoadingStatus();
+          .then(function success(response) {
+            resetLoadingStatus();
 
-              that.sessionID = response.error;
-              that.pubKeyID = response.error;
-              that.privKeyID = response.error;
-            } else {
-              resetLoadingStatus();
+            that.sessionID = response.data.sessionID;
+            that.pubKeyID = pubKeyID;
+            that.privKeyID = privKeyID;
 
-              that.sessionID = response.data.sessionID;
-              that.pubKeyID = pubKeyID;
-              that.privKeyID = privKeyID;
-            }
+          }, function error(response) {
+            resetLoadingStatus();
+
+            that.sessionID = response.error;
+            that.pubKeyID = response.error;
+            that.privKeyID = response.error;
           });
       };
 

@@ -109,7 +109,9 @@ describe('Service: SessionService', function () {
       handler.respond(500, 'error');
 
       SessionService.storeSession(1, 2, 3)
-        .then(function (response) {
+        .then(function success() {
+          // Skip success
+        }, function error(response) {
           expect(response).toEqual({error: STRINGS.GENERATE_SESSION_ERROR});
           done();
         });
@@ -148,7 +150,7 @@ describe('Service: SessionService', function () {
 
     it('date should be set to 0 if not provided', function (done) {
       SessionService.getSessionParticipants(123)
-        .then(function (response) {
+        .then(function success(response) {
           expect(response.config.params.last_fetch).toBe(0);
           done();
         });
@@ -160,7 +162,9 @@ describe('Service: SessionService', function () {
       handler.respond(500, 'error');
 
       SessionService.getSessionParticipants(123, 456)
-        .then(function (response) {
+        .then(function success() {
+          // Skip success
+        }, function error(response) {
           var error = {
             error: STRINGS.GET_SESSION_PARTICIPANTS_ERROR
           };
@@ -198,7 +202,9 @@ describe('Service: SessionService', function () {
       handler.respond(500, 'error');
 
       SessionService.getMasks(1)
-        .then(function (response) {
+        .then(function success() {
+          // Skip success
+        }, function error(response) {
           var error = {
             error: STRINGS.GET_SESSION_MASKS_ERROR
           };
@@ -261,7 +267,9 @@ describe('Service: SessionService', function () {
       handler.respond(500, {error: STRINGS.CALCULATE_FINAL_AGGREGATE_ERROR});
 
       SessionService.calculateFinalAggregate({foo: 'bar'}, 2)
-        .then(function (response) {
+        .then(function success() {
+          // Skip success
+        }, function error(response) {
           var error = {
             error: STRINGS.CALCULATE_FINAL_AGGREGATE_ERROR
           };
