@@ -1,22 +1,32 @@
+<!doctype html>
 <html>
 <head>
 	<title>Boston Women's Workforce Council</title>
 
 	<script type="text/javascript" src="../shared/jquery-1.11.2.js"></script>
     <script type="text/javascript" src="../shared/underscore.js"></script>
-	<script type="text/javascript" src="../shared/handsontable/dist/handsontable.full.js"></script>
+	
+  <script src="http://docs.handsontable.com/pro/bower_components/handsontable-pro/dist/handsontable.full.min.js"></script>
+
     <script type="text/javascript" src="../shared/jsencrypt.js"></script>
     <script type="text/javascript" src="../shared/md5.js"></script>
     <script type="text/javascript" src="style/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript" src="script/waitingDialog.js"></script>
     <script type="text/javascript" src="script/ssCreate.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://docs.handsontable.com/pro/bower_components/handsontable-pro/dist/handsontable.full.min.css">
+  <link rel="stylesheet" type="text/css" href="http://handsontable.com/static/css/main.css">
     <link rel="stylesheet" type="text/css" href="style/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="style/bootstrap/v3/css/bootstrap-theme.min.css">
-	<link rel="stylesheet" media="screen" href="../shared/handsontable/dist/handsontable.full.css">
     <style type="text/css">
-      .handsontable col.rowHeader {
-        width: 200px;
+      .handsontable .handsontable.ht_clone_top .wtHider {
+        width: 1088px !important;
       }
+      .handsontable col.rowHeader {
+        width: 200px !important;
+      }
+      /*.handsontable col.rowHeader {
+        width: 200px ;
+      }*/
       #body_wrap {
         padding-left: 8%;
         padding-right: 8%;
@@ -29,15 +39,13 @@
         text-align: left;
         white-space: normal;
       }
-      /* Ugly hack to display entry unit without touching the actual data
-         This will break if more categories are added! Might not work on all browsers! */
       .handsontable th {
         font-size:12px;
-        white-space: pre-line;
+        /*white-space: pre-line;
         max-width: 110px;
-        vertical-align: middle;
+        vertical-align: middle;*/
       }
-      .ht_clone_left.handsontable tr:nth-child(n+1):nth-child(-n+10) th:first-child span::after {
+      /*.ht_clone_left.handsontable tr:nth-child(n+1):nth-child(-n+10) th:first-child span::after {
         content: '#';
         float: right;
         padding-right: 3px;
@@ -51,7 +59,7 @@
         content: 'mos.';
         float: right;
         padding-right: 3px;
-      }
+      }*/
     </style>
 </head>
 <body>
@@ -74,10 +82,8 @@
     <input type="text" id="sess"/>
     <h3>Email Address to track participation</h3>
     <input type=text id="emailf"/>
-    <h3>Female Workforce</h3>
-    <div id="females"></div>
-    <h3>Male Workforce</h3>
-    <div id="males"></div>
+    <h3>Workforce</h3>
+    <div id="hot"></div>
     <br/>
     <form>
       <div class="checkbox">
@@ -89,18 +95,142 @@
     <button name="dump" class="btn btn-primary btn-lg" id="submit" >Submit</button>
     <br/>
     <script type="text/javascript">
-      $(document).ready(function() {
-        $.ajax({
-          type: "GET",
-          url: "./default2.csv",
-          dataType: "text"
-        })
-        .done(function(data){
-          var f = makeTable(processData(data), 'females'),
-              m = makeTable(processData(data), 'males');
-          initiate_button({Female: f, Male: m}, "dump", "/", 'sess','emailf');
-        });
-      });
+var dataObject = [
+    ['','','','','','','','','','','','','','',''],
+    ['','','','','','','','','','','','','','',''],
+    ['','','','','','','','','','','','','','',''],
+    ['','','','','','','','','','','','','','',''],
+    ['','','','','','','','','','','','','','',''],
+    ['','','','','','','','','','','','','','',''],
+    ['','','','','','','','','','','','','','',''],
+    ['','','','','','','','','','','','','','',''],
+    ['','','','','','','','','','','','','','',''],
+    ['','','','','','','','','','','','','','',''],
+    ['','','','','','','','','','','','','','',''],
+    ['','','','','','','','','','','','','','','']
+];
+
+var hotElement = document.querySelector('#hot');
+var hotElementContainer = hotElement.parentNode;
+var hotSettings = {
+    data: dataObject,
+    // stretchH: 'all',
+    width: 1024,
+    autoWrapRow: true,
+    columns: [
+        {data: 'A', type: 'numeric'},
+        {data: 'B', type: 'numeric'},
+        {data: 'C', type: 'numeric'},
+        {data: 'D', type: 'numeric'},
+        {data: 'E', type: 'numeric'},
+        {data: 'F', type: 'numeric'},
+        {data: 'G', type: 'numeric'},
+        {data: 'H', type: 'numeric'},
+        {data: 'I', type: 'numeric'},
+        {data: 'J', type: 'numeric'},
+        {data: 'K', type: 'numeric'},
+        {data: 'L', type: 'numeric'},
+        {data: 'M', type: 'numeric'},
+        {data: 'N', type: 'numeric'},
+        {data: 'O', type: 'numeric'}
+    ],
+    rowHeaders: [
+        'Executive/Senior Level Officials and <br> Managers', 
+        'First/Mid-Level Officials and Managers',
+        'Professionals',
+        'Technichians',
+        'Sale Workers',
+        'Administrative Support Workers',
+        'Craft Workers',
+        'Operatives',
+        'Laborers and Helpers',
+        'Service Workers',
+        '<b>TOTAL</b>',
+        '<b>PREVIOUS YEAR TOTAL</b>',
+    ],
+    nestedHeaders: [
+        [
+            {
+                label: 'Number of Employees (Report employees in only one category)',
+                colspan: 15 
+            }
+        ],
+        [
+            {
+                label: 'Race/ Ethnicity',
+                colspan: 15  
+            }
+        ],
+        [
+            {
+                label: 'Hispanic or Latino',
+                colspan: 2
+            },
+            {
+                label: 'Not-Hispanic or Latino',
+                colspan: 12
+            },
+            {
+                label: 'Total Col A - N',
+                colspan: 1
+            }
+        ],
+        [
+            {
+                label: '',
+                colspan: 2
+            },
+            {
+                label: 'Male',
+                colspan: 6
+            },
+            {
+                label: 'Female',
+                colspan: 6
+            },
+            {
+                label: '',
+                colspan: 1
+            }
+        ],
+        [
+            'Male',
+            'Female',
+            'White',
+            'Black <br> or <br> African <br> American',
+            'Native <br> Hawaiian <br> or <br> Other <br> Parcific <br> Islander',
+            'Asian',
+            'American <br> Indian <br> or <br> Alaska <br> Native',
+            'Two <br> or <br> more <br> races',
+            'White',
+            'Black <br> or <br> African <br> American',
+            'Native <br> Hawaiian <br> or <br> Other <br> Parcific <br> Islander',
+            'Asian',
+            'American <br> Indian <br> or <br> Alaska <br> Native',
+            'Two <br> or <br> more <br> races',
+            ''
+        ],
+        [
+            'A',
+            'B',
+            'C',
+            'D',
+            'E',
+            'F',
+            'G',
+            'H',
+            'I',
+            'J',
+            'K',
+            'L',
+            'M',
+            'N',
+            'O'
+        ]
+    ]
+};  
+
+var hot = new Handsontable(hotElement, hotSettings);
     </script>
   </div>
 </body>
