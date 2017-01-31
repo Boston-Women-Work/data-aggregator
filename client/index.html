@@ -155,19 +155,26 @@
           rowHeaders: tableConfig.rowHeaders,
           nestedHeaders: tableConfig.nestedHeaders,
           afterValidate: function (isValid, value, row, prop, source) {
-            console.log(isValid, value, row, prop, source);
+            // console.log(isValid, value, row, prop, source);
+            // console.log(this);
             var isChecked = document.querySelector('#verify').checked;
-            console.log(isChecked);
             if (isChecked) {
+              if (prop === 'O') {
+                console.log(row, this.propToCol(prop));
+                console.log(this.getData(row, this.propToCol(prop), 
+                  row, this.propToCol(prop)));    
+              }
+              else if (row === 4) {
 
+              }
             }
+
           }
         };
 
         var hot = new Handsontable(hotElement, hotSettings);
         var verifyBox = document.querySelector('#verify');
         Handsontable.Dom.addEvent(verifyBox, 'click', function (event) {
-          console.log('click');
           hot.validateCells();
         });
       });
