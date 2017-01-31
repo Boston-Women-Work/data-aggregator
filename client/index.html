@@ -139,6 +139,31 @@
   <button name="dump" class="btn btn-primary btn-lg" id="submit">Submit</button>
   <br/>
   <script type="text/javascript">
+    var validateSum = function(enteredSum, values) {
+      for (var i = 0; i < values.length; i++) {
+        if (isNaN(values[i])) {
+          return false;
+        }
+      };
+      if (isNaN(enteredSum)) {
+        return false;
+      }
+
+      var rowSum = values.map(function (val) {
+        if (!Number.isInteger(val)) {
+          return 0;
+        }
+        else {
+          return val;
+        }
+      }).reduce(function(e1, e2) {
+        return e1 + e2;
+      });
+
+      if (!Number.isInteger(enteredSum)) enteredSum = 0;
+      
+      return rowSum === enteredSum;
+    };
 
     $(document).ready(function() {
       $.ajax({
@@ -155,23 +180,29 @@
           rowHeaders: tableConfig.rowHeaders,
           nestedHeaders: tableConfig.nestedHeaders,
           afterValidate: function (isValid, value, row, prop, source) {
-            // console.log(isValid, value, row, prop, source);
-            // console.log(this);
             var isChecked = document.querySelector('#verify').checked;
+            var col = this.propToCol(prop);
             if (isChecked) {
-              if (prop === 'O') {
-                console.log(row, this.propToCol(prop));
-                console.log(this.getData(row, this.propToCol(prop), 
-                  row, this.propToCol(prop)));    
+              if (col === 14 && row < 3) {
+                var rowValues = this.getData(row, 0, row, col - 1)[0];
+                return validateSum(value, rowValues);
               }
-              else if (row === 4) {
-
+              else if (row === 3 && col !== 14) {
+                var colValues = this.getData(0, col, 2, col).map(function (val) {
+                  return val[0];
+                });
+                return validateSum(value, colValues);
+              }
+              else {
+                // Force revalidation--look at proper way to do this
+                if (source === 'edit') {
+                  this.setDataAtCell(row, 14, this.getDataAtCell(row, 14));
+                  this.setDataAtCell(3, col, this.getDataAtCell(3, col));
+                }
               }
             }
-
           }
         };
-
         var hot = new Handsontable(hotElement, hotSettings);
         var verifyBox = document.querySelector('#verify');
         Handsontable.Dom.addEvent(verifyBox, 'click', function (event) {
