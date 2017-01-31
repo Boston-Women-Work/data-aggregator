@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-  <title>Boston Women's Workforce Council</title>
+  <title>Financial Services D&amp;I Scorecard</title>
 
   <script type="text/javascript" src="../shared/jquery-1.11.2.js"></script>
   <script type="text/javascript" src="../shared/underscore.js"></script>
@@ -18,8 +18,13 @@
   <link rel="stylesheet" type="text/css" href="style/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="style/bootstrap/v3/css/bootstrap-theme.min.css">
   <style type="text/css">
-    .handsontable .handsontable.ht_clone_top .wtHider {
-      width: 1088px !important;
+    .hidden {
+      display:none;
+    }
+    .handsontable .ht_clone_top,
+    .handsontable .ht_clone_top_left,
+    .handsontable .ht_clone_top_left_corner {
+      transform: initial !important;
     }
     .handsontable col.rowHeader {
       width: 200px !important;
@@ -50,11 +55,9 @@
     <table width="100%">
     <tr>
       <td>
-      <h1>Workforce Survey<br/><small>Boston Women's Workforce Council</small></h1>
+      <h1>Financial Services D&amp;I Scorecard<br/><small>DRAFT</small></h1>
       </td>
       <td align="right">
-      <img src="../shared/seal.png" width="130px"/>&nbsp;&nbsp;
-      <img src="../shared/logo.png" width="130px"/>&nbsp;&nbsp;&nbsp;
       <img src="../shared/bu.png" width="110px"/>
       </td>
     </tr>
@@ -65,8 +68,8 @@
   <h3>Email Address to track participation</h3>
   <input type=text id="emailf"/>
   <h3>Workforce</h3>
-  <div id="hot"></div>
-  <br/>
+  <div id="main-hot" style=""></div>
+  <br>
   <form>
     <div class="checkbox">
     <label>
@@ -74,49 +77,142 @@
     </label>
     </div>
   </form>
-  <h3>Multiple Choice Questions</h3>
-  <form>
-    <div class="form-group">
-      <label for="sel1">Multiple Choice Question 1</label>
-      <select class="form-control" id="sel1">
-        <option>Answer 1</option>
-        <option>Answer 2</option>
-        <option>Answer 3</option>
-        <option>Answer 4</option>
-      </select>
+  <div id="directors">
+    <h3>Board of Directors</h3>
+    <form>
+      <div class="checkbox">
+      <label>
+        <input type="checkbox" id="include-directors" name="include-directors"> Provide Board of Directors information
+      </label>
+      </div>
+    </form>
+    <div id="directors-hot" class="hidden"></div>
+  </div>
+  <div id="additional-questions">
+    <h3>Additional Questions</h3>
+    <form>
+      <div class="checkbox">
+      <label>
+        <input type="checkbox" id="include-questions"> Answer additional questions
+      </label>
+      </div>
+    </form>
+    <div id="questions" class="hidden">
+      <form>
+        <label>Does your company hold events to celebrate diversity and inclusion?</label>
+        <div class="radio">
+          <label class="radio-inline"><input type="radio" name="optradio">Yes</label>
+        </div>
+        <div class="radio">
+          <label class="radio-inline"><input type="radio" name="optradio">No</label>
+        </div>
+      </form>
+      <form>
+        <label>Does your company provide diversity and inclusion education or training for managers, staff or both?</label>
+        <div class="radio">
+          <label><input type="radio" name="optradio">Yes</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="optradio">No</label>
+        </div>
+      </form>
+      <form>
+        <label>Does your management team meet to discuss your organization’s diverse workforce or workplace culture?</label>
+        <div class="radio">
+          <label><input type="radio" name="optradio">Yes</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="optradio">No</label>
+        </div>
+      </form>
+      <form>
+        <label>Does your CEO engage in or lead discussions on diversity and inclusion with your management team or with other business executives?</label>
+        <div class="radio">
+          <label><input type="radio" name="optradio">Yes</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="optradio">No</label>
+        </div>
+      </form>
     </div>
-    <div class="form-group">
-      <label for="sel2">Multiple Choice Question 2</label>
-      <select class="form-control" id="sel1">
-        <option>Answer 1</option>
-        <option>Answer 2</option>
-        <option>Answer 3</option>
-        <option>Answer 4</option>
-      </select>
-    </div>
-  </form>
-  <button name="dump" class="btn btn-primary btn-lg" id="submit" >Submit</button>
+  </div>
+  <button name="dump" class="btn btn-primary btn-lg" id="submit">Submit</button>
   <br/>
   <script type="text/javascript">
+
     $(document).ready(function() {
       $.ajax({
         type: "GET",
         url: "./default.json",
         dataType: "json"
       }).done(function (tableConfig) {
-        var hotElement = document.querySelector('#hot');
+        var hotElement = document.querySelector('#main-hot');
         var hotElementContainer = hotElement.parentNode;
         var hotSettings = {
           data: tableConfig.dummyFields,
           width: 1024,
-          autoWrapRow: true,
+          columns: tableConfig.columns,
+          rowHeaders: tableConfig.rowHeaders,
+          nestedHeaders: tableConfig.nestedHeaders,
+          afterValidate: function (isValid, value, row, prop, source) {
+            console.log(isValid, value, row, prop, source);
+            var isChecked = document.querySelector('#verify').checked;
+            console.log(isChecked);
+            if (isChecked) {
+
+            }
+          }
+        };
+
+        var hot = new Handsontable(hotElement, hotSettings);
+        var verifyBox = document.querySelector('#verify');
+        Handsontable.Dom.addEvent(verifyBox, 'click', function (event) {
+          console.log('click');
+          hot.validateCells();
+        });
+      });
+
+      $.ajax({
+        type: "GET",
+        url: "./directors.json",
+        dataType: "json"
+      }).done(function (tableConfig) {
+        var hotElement = document.querySelector('#directors-hot');
+        var hotElementContainer = hotElement.parentNode;
+        var hotSettings = {
+          data: tableConfig.dummyFields,
+          width: 1024,
           columns: tableConfig.columns,
           rowHeaders: tableConfig.rowHeaders,
           nestedHeaders: tableConfig.nestedHeaders
         };
         var hot = new Handsontable(hotElement, hotSettings);
+        var toggleBox = document.querySelector('#include-directors');
+        Handsontable.Dom.addEvent(toggleBox, 'click', function (event) {
+          hot.render();
+        });
+      });
+
+      // TODO: ugly workaround 
+      $("#directors-hot").show();
+      $("#directors-hot").hide();
+      $("#include-directors").click(function() {
+        if ($(this).is(":checked")) {
+          $("#directors-hot").show();
+        } else {
+          $("#directors-hot").hide();
+        }
+      });
+
+      $("#include-questions").click(function() {
+        if ($(this).is(":checked")) {
+          $("#questions").show();
+        } else {
+          $("#questions").hide();
+        }
       });
     });
+
   </script>
   </div>
 </body>
