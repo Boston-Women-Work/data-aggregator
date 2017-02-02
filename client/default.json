@@ -1,10 +1,11 @@
 {
+    "totalsColumnIdx": 14,
+    "totalsRowIdx": 3,
     "dummyFields": [
-        ["","","","","","","","","","","","","","",""],
-        ["","","","","","","","","","","","","","",""],
-        ["","","","","","","","","","","","","","",""],
-        ["","","","","","","","","","","","","","",""],
-        ["","","","","","","","","","","","","","",""]
+        {"A":0,"B":0,"C":0,"D":0,"E":0,"F":0,"G":0,"H":0,"I":0,"J":0,"K":0,"L":0,"M":0,"N":0,"O":0},
+        {"A":0,"B":0,"C":0,"D":0,"E":0,"F":0,"G":0,"H":0,"I":0,"J":0,"K":0,"L":0,"M":0,"N":0,"O":0},
+        {"A":0,"B":0,"C":0,"D":0,"E":0,"F":0,"G":0,"H":0,"I":0,"J":0,"K":0,"L":0,"M":0,"N":0,"O":0},
+        {"A":0,"B":0,"C":0,"D":0,"E":0,"F":0,"G":0,"H":0,"I":0,"J":0,"K":0,"L":0,"M":0}
     ],
     "columns": [
         {"data": "A", "type": "numeric"},
@@ -27,22 +28,9 @@
         "Executive/Senior Level Officials and <br> Managers", 
         "First/Mid-Level Officials and Managers",
         "Professionals",
-        "<b>TOTAL</b>",
-        "<b>PREVIOUS YEAR TOTAL</b>"
+        "<b>TOTAL</b>"
     ],
     "nestedHeaders": [
-        [
-            {
-                "label": "Number of Employees (Report employees in only one category)",
-                "colspan": 15 
-            }
-        ],
-        [
-            {
-                "label": "Race/ Ethnicity",
-                "colspan": 15  
-            }
-        ],
         [
             {
                 "label": "Hispanic or Latino",
@@ -53,7 +41,7 @@
                 "colspan": 12
             },
             {
-                "label": "Total Col A - N",
+                "label": "",
                 "colspan": 1
             }
         ],
@@ -90,7 +78,10 @@
             "Asian",
             "American <br> Indian <br> or <br> Alaska <br> Native",
             "Two <br> or <br> more <br> races",
-            ""
+            {
+                "label": "<b>TOTAL</b> <br> Col A - N",
+                "colspan": 1
+            }
         ],
         [
             "A",

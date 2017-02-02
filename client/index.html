@@ -49,6 +49,7 @@
     }
     form label {
       font-weight: 400 !important;
+      font-size: 1rem !important;
       color: #444;
     }
   </style>
@@ -68,16 +69,16 @@
     </table>
   </div>
   <h3>Enter Session Key</h3>
-  <input type="text" id="sess"/>
+  <input autocomplete="off" type="text" id="sess"/>
   <h3>Email Address to track participation</h3>
-  <input type=text id="emailf"/>
-  <h3>Workforce</h3>
+  <input autocomplete="off" type=text id="emailf"/>
+  <h3>Number of Employees (Report employees in only one category)</h3>
   <div id="main-hot" style=""></div>
   <br>
   <form>
     <div class="checkbox">
     <label>
-      <input type="checkbox" id="verify" name="verify"> All numbers are verified and correct
+      <input autocomplete="off" type="checkbox" id="verify" name="verify"> All numbers are verified and correct
     </label>
     </div>
   </form>
@@ -86,7 +87,7 @@
     <form>
       <div class="checkbox">
       <label>
-        <input type="checkbox" id="include-directors" name="include-directors"> Provide Board of Directors information
+        <input autocomplete="off" type="checkbox" id="include-directors" name="include-directors"> Provide Board of Directors information
       </label>
       </div>
     </form>
@@ -97,7 +98,7 @@
     <form>
       <div class="checkbox">
       <label>
-        <input type="checkbox" id="include-questions"> Answer additional questions
+        <input autocomplete="off" type="checkbox" id="include-questions"> Answer additional questions
       </label>
       </div>
     </form>
@@ -105,37 +106,37 @@
       <form>
         <label>Does your company hold events to celebrate diversity and inclusion?</label>
         <div class="radio">
-          <label class="radio-inline"><input type="radio" name="optradio">Yes</label>
+          <label class="radio-inline"><input autocomplete="off" type="radio" name="optradio">Yes</label>
         </div>
         <div class="radio">
-          <label class="radio-inline"><input type="radio" name="optradio">No</label>
+          <label class="radio-inline"><input autocomplete="off" type="radio" name="optradio">No</label>
         </div>
       </form>
       <form>
         <label>Does your company provide diversity and inclusion education or training for managers, staff or both?</label>
         <div class="radio">
-          <label><input type="radio" name="optradio">Yes</label>
+          <label><input autocomplete="off" type="radio" name="optradio">Yes</label>
         </div>
         <div class="radio">
-          <label><input type="radio" name="optradio">No</label>
+          <label><input autocomplete="off" type="radio" name="optradio">No</label>
         </div>
       </form>
       <form>
         <label>Does your management team meet to discuss your organization's diverse workforce or workplace culture?</label>
         <div class="radio">
-          <label><input type="radio" name="optradio">Yes</label>
+          <label><input autocomplete="off" type="radio" name="optradio">Yes</label>
         </div>
         <div class="radio">
-          <label><input type="radio" name="optradio">No</label>
+          <label><input autocomplete="off" type="radio" name="optradio">No</label>
         </div>
       </form>
       <form>
         <label>Does your CEO engage in or lead discussions on diversity and inclusion with your management team or with other business executives?</label>
         <div class="radio">
-          <label><input type="radio" name="optradio">Yes</label>
+          <label><input autocomplete="off" type="radio" name="optradio">Yes</label>
         </div>
         <div class="radio">
-          <label><input type="radio" name="optradio">No</label>
+          <label><input autocomplete="off" type="radio" name="optradio">No</label>
         </div>
       </form>
     </div>
@@ -148,7 +149,7 @@
         if (isNaN(values[i])) {
           return false;
         }
-      };
+      }
       if (isNaN(enteredSum)) {
         return false;
       }
@@ -169,49 +170,58 @@
       return rowSum === enteredSum;
     };
 
+    var constructTable = function (tableConfig) {
+      var hotElement = document.querySelector('#main-hot');
+      var hotSettings = {
+        data: tableConfig.dummyFields,
+        width: 1024,
+        columns: tableConfig.columns,
+        rowHeaders: tableConfig.rowHeaders,
+        nestedHeaders: tableConfig.nestedHeaders,
+        maxRows: tableConfig.totalsRowIdx + 1,
+        maxCols: tableConfig.totalsColIdx + 1,
+        afterValidate: function (isValid, value, row, prop, source) {
+          var isChecked = document.querySelector('#verify').checked;
+          var col = this.propToCol(prop);
+          if (isChecked) {
+            if (col === tableConfig.totalsColumnIdx 
+              && row < tableConfig.totalsRowIdx) {
+              var rowValues = this.getData(row, 0, row, col - 1)[0];
+              return validateSum(value, rowValues);
+            }
+            else if (row === tableConfig.totalsRowIdx 
+              && col !== tableConfig.totalsColumnIdx) {
+              var colValues = this.getData(0, col, 2, col).map(function (val) {
+                return val[0];
+              });
+              return validateSum(value, colValues);
+            }
+            else {
+              // Force revalidation--look at proper way to do this
+              if (source === 'paste' || source === 'edit' || source == null) {
+                this.setDataAtCell(row, tableConfig.totalsColumnIdx, 
+                  this.getDataAtCell(row, tableConfig.totalsColumnIdx));
+                this.setDataAtCell(tableConfig.totalsRowIdx, col, 
+                  this.getDataAtCell(tableConfig.totalsRowIdx, col));
+              }
+            }
+          }
+        }
+      };
+      var hot = new Handsontable(hotElement, hotSettings);
+      var verifyBox = document.querySelector('#verify');
+      Handsontable.Dom.addEvent(verifyBox, 'click', function (event) {
+        hot.validateCells();
+      });
+    };
+
     $(document).ready(function() {
       $.ajax({
         type: "GET",
         url: "./default.json",
         dataType: "json"
       }).done(function (tableConfig) {
-        var hotElement = document.querySelector('#main-hot');
-        var hotElementContainer = hotElement.parentNode;
-        var hotSettings = {
-          data: tableConfig.dummyFields,
-          width: 1024,
-          columns: tableConfig.columns,
-          rowHeaders: tableConfig.rowHeaders,
-          nestedHeaders: tableConfig.nestedHeaders,
-          afterValidate: function (isValid, value, row, prop, source) {
-            var isChecked = document.querySelector('#verify').checked;
-            var col = this.propToCol(prop);
-            if (isChecked) {
-              if (col === 14 && row < 3) {
-                var rowValues = this.getData(row, 0, row, col - 1)[0];
-                return validateSum(value, rowValues);
-              }
-              else if (row === 3 && col !== 14) {
-                var colValues = this.getData(0, col, 2, col).map(function (val) {
-                  return val[0];
-                });
-                return validateSum(value, colValues);
-              }
-              else {
-                // Force revalidation--look at proper way to do this
-                if (source === 'edit') {
-                  this.setDataAtCell(row, 14, this.getDataAtCell(row, 14));
-                  this.setDataAtCell(3, col, this.getDataAtCell(3, col));
-                }
-              }
-            }
-          }
-        };
-        var hot = new Handsontable(hotElement, hotSettings);
-        var verifyBox = document.querySelector('#verify');
-        Handsontable.Dom.addEvent(verifyBox, 'click', function (event) {
-          hot.validateCells();
-        });
+        constructTable(tableConfig);
       });
 
       $.ajax({
