@@ -6,6 +6,7 @@ data-aggregator
 
 Implementation of a data collection and aggregation infrastructure that supports individual data obfuscation.
 
+**This repository is currently being maintained primarily for archival purposes. For the latest version of the web-based MPC framework derived from the one in this repository, please visit [https://github.com/hicsail/web-mpc](https://github.com/hicsail/web-mpc).**
 
 Environment
 -----------
