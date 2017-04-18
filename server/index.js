@@ -16,7 +16,7 @@
 /*  Set server to staging for testing
     Set server to https://acme-v01.api.letsencrypt.org/directory for production
 */
-var lex = require('letsencrypt-express').create({
+var lex = require('greenlock-express').create({
     server: 'https://acme-v01.api.letsencrypt.org/directory',
     acme: require('le-acme-core').ACME.create(),
     challenge: require('le-challenge-fs').create({
