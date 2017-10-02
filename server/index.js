@@ -13,20 +13,11 @@
 
 'use strict';
 
-var LEX = require('letsencrypt-express');
-var http = require('http');
-var express = require('express');
-var app = express();
-var body_parser = require('body-parser');
-var mongoose = require('mongoose');
-var template = require('./template');
-var aggregator = require('../shared/aggregate');
-
 /*  Set server to staging for testing
     Set server to https://acme-v01.api.letsencrypt.org/directory for production
 */
-var lex = LEX.create({
-    server: 'staging',
+var lex = require('greenlock-express').create({
+    server: 'https://acme-v01.api.letsencrypt.org/directory',
     acme: require('le-acme-core').ACME.create(),
     challenge: require('le-challenge-fs').create({
         webrootPath: '~/letsencrypt/var/:hostname'
@@ -39,17 +30,18 @@ var lex = LEX.create({
     debug: false
 });
 
-var server;
-
-// Run on port 8080 without forced https for development
-server = http.createServer(lex.middleware(app)).listen(8080, function () {
-    console.log("Listening for ACME http-01 challenges on", this.address());
+// handles acme-challenge and redirects to https
+require('http').createServer(lex.middleware(require('redirect-https')())).listen(80, function () {
+  console.log("Listening for ACME http-01 challenges on", this.address());
 });
 
-// handles acme-challenge and redirects to https
-// http.createServer(lex.middleware(require('redirect-https')())).listen(80, function () {
-//     console.log("Listening for ACME http-01 challenges on", this.address());
-// });
+var express = require('express');
+var app = express();
+var body_parser = require('body-parser');
+var mongoose = require('mongoose');
+var template = require('./template');
+var aggregator = require('../shared/aggregate');
+
 
 function approveDomains(opts, certs, cb) {
     if (!/\.100talent\.org$/.test(opts.domain) && opts.domain !== '100talent.org') {
@@ -240,29 +232,30 @@ app.post('/submit_agg', function (req, res) {
 
             // create the aggregate of all of the submitted entries
             var final_data = aggregator.aggregate(data, true, true);
+            final_data.then(function (value) {
+                // subtract out the random data, unless it is a counter field
+                for (var field in value)
+                    if (mask.hasOwnProperty(field) && field.slice(field.length - 6, field.length) != '_count')
+                        value[field] -= mask[field];
 
-            // subtract out the random data, unless it is a counter field
-            for (var field in final_data)
-                if (mask.hasOwnProperty(field) && field.slice(field.length - 6, field.length) != '_count')
-                    final_data[field] -= mask[field];
+                console.log('Final aggregate computed.');
 
-            console.log('Final aggregate computed.');
+                var new_final = {_id: req.body.session, aggregate: value, date: Date.now(), session: req.body.session};
+                var to_save = new FinalAggregate(new_final);
 
-            var new_final = {_id: req.body.session, aggregate: final_data, date: Date.now(), session: req.body.session};
-            var to_save = new FinalAggregate(new_final);
+                console.log('Saving aggregate.');
 
-            console.log('Saving aggregate.');
-
-            // save the final aggregate for future reference.
-            // you can build another endpoint to query the finalaggregates collection if you would like
-            FinalAggregate.update({_id: req.body.session}, to_save.toObject(), function (err) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log('Aggregate saved and sent.');
-                }
+                // save the final aggregate for future reference.
+                // you can build another endpoint to query the finalaggregates collection if you would like
+                FinalAggregate.update({_id: req.body.session}, to_save.toObject(), function (err) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log('Aggregate saved and sent.');
+                    }
+                });
+                res.json(value);
             });
-            res.json(final_data);
         } else {
             res.json({'error': "Too few people have submitted. Please come back later."})
         }
@@ -275,8 +268,8 @@ app.get(/.*/, function (req, res) {
     res.status(404).json({error: 'Page not found'});
 });
 
-// require('https').createServer(lex.httpsOptions, lex.middleware(app)).listen(443, function () {
-//   console.log("Listening for ACME tls-sni-01 challenges and serve app on", this.address());
-// });
+require('https').createServer(lex.httpsOptions, lex.middleware(app)).listen(443, function () {
+  console.log("Listening for ACME tls-sni-01 challenges and serve app on", this.address());
+});
 
 /*eof*/
