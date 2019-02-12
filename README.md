@@ -1,12 +1,9 @@
 data-aggregator
 ===============
 
-[![Build Status](https://travis-ci.org/Boston-Women-Work/data-aggregator.svg?branch=master)](https://travis-ci.org/Boston-Women-Work/data-aggregator)
-[![Coverage Status](https://coveralls.io/repos/github/Boston-Women-Work/data-aggregator/badge.svg?branch=angular)](https://coveralls.io/github/Boston-Women-Work/data-aggregator?branch=angular)
-
 Implementation of a data collection and aggregation infrastructure that supports individual data obfuscation.
 
-**This repository is currently being maintained primarily for archival purposes. The client interface as it appeared during its deployment in 2016 [can be viewed online](https://boston-women-work.github.io/data-aggregator) (it is not tied to a backend server and, thus, is non-functioning). For the latest version of the web-based MPC framework derived from the one in this repository, please visit [https://github.com/hicsail/web-mpc](https://github.com/hicsail/web-mpc).**
+**This repository is currently being maintained primarily for archival purposes. The client interface as it appeared during its deployment in 2016 [can be viewed online](https://boston-women-work.github.io/data-aggregator) (it is not tied to a backend server and, thus, is non-functioning). For the latest version of the web-based MPC framework derived from the one in this repository, please visit [https://github.com/multiparty/web-mpc](https://github.com/multiparty/web-mpc).**
 
 Environment
 -----------
